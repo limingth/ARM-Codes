@@ -1,0 +1,135 @@
+
+========================================================================
+
+** ELF Header Information
+
+    File Name: 2-clock.axf
+
+    Machine class: ELFCLASS32 (32-bit)
+    Data encoding: ELFDATA2LSB (Little endian)
+    Header version: EV_CURRENT (Current version)
+    File Type: ET_EXEC (Executable) (2)
+    Machine: EM_ARM (ARM)
+
+    Image Entry point: 0x00000000
+    Flags: EF_ARM_HASENTRY + EF_ARM_SYMSARESORTED + EF_ARM_MAPSYMSFIRST (0x02000016)
+
+    EABI conformance : ARM EABI Version 2.
+
+    Built with
+    ARM C Compiler, ADS1.2 [Build 805]
+    ARM/Thumb Macro Assembler vsn ADS1.2 [Build 805]
+    ARM Linker, ADS1.2 [Build 805] 
+
+    Header size: 52 bytes (0x34)
+    Program header entry size: 32 bytes (0x20)
+    Section header entry size: 40 bytes (0x28)
+
+    Program header entries: 1
+    Section header entries: 8
+
+    Program header offset: 1200 (0x000004b0)
+    Section header offset: 1232 (0x000004d0)
+
+    Section header string table index: 7
+
+========================================================================
+
+** Program header #0 (PT_LOAD) [PF_X + PF_R + PF_ARM_ENTRY]
+    Size : 200 bytes
+    Virtual address: 0x00000000
+
+
+========================================================================
+
+** Section #1 'ER_RO' (SHT_PROGBITS) [SHF_ALLOC + SHF_EXECINSTR]
+    Size   : 200 bytes (alignment 4)
+
+    $a
+    uartdemo
+        0x00000000:    ee111f10    ....    MRC      p15,0x0,r1,c1,c0,0
+        0x00000004:    e38114c0    ....    ORR      r1,r1,#0xc0000000
+        0x00000008:    ee011f10    ....    MCR      p15,0x0,r1,c1,c0,0
+        0x0000000c:    e3a0dd40    @...    MOV      r13,#0x1000
+        0x00000010:    ea000005    ....    B        mymain  ; 0x2c
+    delay
+    .text
+        0x00000014:    e3a00000    ....    MOV      r0,#0
+        0x00000018:    e2800001    ....    ADD      r0,r0,#1
+        0x0000001c:    e250cb60    `.P.    SUBS     r12,r0,#0x18000
+        0x00000020:    a25cce6a    j.\.    SUBGES   r12,r12,#0x6a0
+        0x00000024:    bafffffb    ....    BLT      0x18
+        0x00000028:    e1a0f00e    ....    MOV      pc,r14
+    mymain
+        0x0000002c:    e92d4010    .@-.    STMFD    r13!,{r4,r14}
+        0x00000030:    e3a00000    ....    MOV      r0,#0
+        0x00000034:    e3a01453    S...    MOV      r1,#0x53000000
+        0x00000038:    e5810000    ....    STR      r0,[r1,#0]
+        0x0000003c:    e3a04041    A@..    MOV      r4,#0x41
+        0x00000040:    e3a01003    ....    MOV      r1,#3
+        0x00000044:    e3a0044c    L...    MOV      r0,#0x4c000000
+        0x00000048:    e5801014    ....    STR      r1,[r0,#0x14]
+        0x0000004c:    e59f1010    ....    LDR      r1,0x64
+        0x00000050:    e5801004    ....    STR      r1,[r0,#4]
+        0x00000054:    eb000003    ....    BL       uart_init  ; 0x68
+        0x00000058:    e1a00004    ....    MOV      r0,r4
+        0x0000005c:    eb00000c    ....    BL       uart_putchar  ; 0x94
+        0x00000060:    eafffffc    ....    B        0x58
+    $d
+        0x00000064:    0005c040    @...    DCD    376896
+    uart_init
+    $a
+    .text
+        0x00000068:    e3a000a0    ....    MOV      r0,#0xa0
+        0x0000006c:    e3a01456    V...    MOV      r1,#0x56000000
+        0x00000070:    e5810070    p...    STR      r0,[r1,#0x70]
+        0x00000074:    e3a01005    ....    MOV      r1,#5
+        0x00000078:    e3a00450    P...    MOV      r0,#0x50000000
+        0x0000007c:    e5801004    ....    STR      r1,[r0,#4]
+        0x00000080:    e3a0101a    ....    MOV      r1,#0x1a
+        0x00000084:    e5801028    (...    STR      r1,[r0,#0x28]
+        0x00000088:    e3a01003    ....    MOV      r1,#3
+        0x0000008c:    e5801000    ....    STR      r1,[r0,#0]
+        0x00000090:    e1a0f00e    ....    MOV      pc,r14
+    uart_putchar
+        0x00000094:    e3a02450    P$..    MOV      r2,#0x50000000
+        0x00000098:    e5921010    ....    LDR      r1,[r2,#0x10]
+        0x0000009c:    e3110004    ....    TST      r1,#4
+        0x000000a0:    0afffffc    ....    BEQ      0x98
+        0x000000a4:    e5820020     ...    STR      r0,[r2,#0x20]
+        0x000000a8:    e1a0f00e    ....    MOV      pc,r14
+    uart_getchar
+        0x000000ac:    e3a01450    P...    MOV      r1,#0x50000000
+        0x000000b0:    e5910010    ....    LDR      r0,[r1,#0x10]
+        0x000000b4:    e3100001    ....    TST      r0,#1
+        0x000000b8:    0afffffc    ....    BEQ      0xb0
+        0x000000bc:    e5910024    $...    LDR      r0,[r1,#0x24]
+        0x000000c0:    e20000ff    ....    AND      r0,r0,#0xff
+        0x000000c4:    e1a0f00e    ....    MOV      pc,r14
+
+** Section #2 '.debug_frame' (SHT_PROGBITS)
+    Size   : 176 bytes
+
+
+** Section #3 '.symtab' (SHT_SYMTAB)
+    Size   : 272 bytes (alignment 4)
+    String table '.strtab'
+    Last local symbol no. 10
+
+
+** Section #4 '.strtab' (SHT_STRTAB)
+    Size   : 184 bytes
+
+
+** Section #5 '.note' (SHT_NOTE)
+    Size   : 20 bytes (alignment 4)
+
+
+** Section #6 '.comment' (SHT_PROGBITS)
+    Size   : 212 bytes
+
+
+** Section #7 '.shstrtab' (SHT_STRTAB)
+    Size   : 84 bytes
+
+

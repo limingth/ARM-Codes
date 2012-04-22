@@ -1,0 +1,52 @@
+预备工作：
+1、烧写Linux kernel内核 zImage 到 NandFlash 1M 位置处 (64 block)
+
+2、预先加载 zImage 到 0x30008000 位置处
+myboot> nr 0x100000 0x30008000 0x200000
+input command is <nr 0x100000 0x30008000 0x200000>
+argv[0] is <nr>
+argv[1] is <0x100000>
+argv[2] is <0x30008000>
+argv[3] is <0x200000>
+command is <nr>
+nandread 0x00100000 to buf 0x30008000 (size = 0x00200000) OK!
+myboot> go 0x30008000
+input command is <go 0x30008000>
+argv[0] is <go>
+argv[1] is <0x30008000>
+command is <go>
+Uncompressing Linux.............................................................
+.......................... done, booting the kernel.
+
+Error: unrecognized/unsupported machine ID (r1 = 0x30008000).
+
+Available machine support:
+
+ID (hex)        NAME
+00000752        AKAE2410
+00000753        AKAE2440
+
+Please check your kernel config and/or bootloader.
+
+3、修改 go 命令，传入参数 r1 = 0x753
+
+
+setenv bootmode ramdisk
+setenv rdsize 0x800000
+setenv init /linuxrc
+
+
+
+/ $ ifconfig
+ifconfig: Warning: cannot open /proc/net/dev. Limited output.: No such file or d
+irectory
+eth0      Link encap:Ethernet  HWaddr C0:FF:EE:08:00:00
+          inet addr:192.168.0.100  Bcast:192.168.0.255  Mask:255.255.255.0
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          Interrupt:53 Base address:0x300
+
+lo        Link encap:Local Loopback
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          UP LOOPBACK RUNNING  MTU:16436  Metric:1
+
+/ $

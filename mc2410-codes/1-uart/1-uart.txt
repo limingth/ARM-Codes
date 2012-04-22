@@ -1,0 +1,114 @@
+
+========================================================================
+
+** ELF Header Information
+
+    File Name: 1-uart.axf
+
+    Machine class: ELFCLASS32 (32-bit)
+    Data encoding: ELFDATA2LSB (Little endian)
+    Header version: EV_CURRENT (Current version)
+    File Type: ET_EXEC (Executable) (2)
+    Machine: EM_ARM (ARM)
+
+    Image Entry point: 0x00000000
+    Flags: EF_ARM_HASENTRY + EF_ARM_SYMSARESORTED + EF_ARM_MAPSYMSFIRST (0x02000016)
+
+    EABI conformance : ARM EABI Version 2.
+
+    Built with
+    ARM C Compiler, ADS1.2 [Build 805]
+    ARM/Thumb Macro Assembler vsn ADS1.2 [Build 805]
+    ARM Linker, ADS1.2 [Build 805] 
+
+    Header size: 52 bytes (0x34)
+    Program header entry size: 32 bytes (0x20)
+    Section header entry size: 40 bytes (0x28)
+
+    Program header entries: 1
+    Section header entries: 8
+
+    Program header offset: 1056 (0x00000420)
+    Section header offset: 1088 (0x00000440)
+
+    Section header string table index: 7
+
+========================================================================
+
+** Program header #0 (PT_LOAD) [PF_X + PF_R + PF_ARM_ENTRY]
+    Size : 128 bytes
+    Virtual address: 0x00000000
+
+
+========================================================================
+
+** Section #1 'ER_RO' (SHT_PROGBITS) [SHF_ALLOC + SHF_EXECINSTR]
+    Size   : 128 bytes (alignment 4)
+
+    $a
+    uartdemo
+        0x00000000:    e3a0dd40    @...    MOV      r13,#0x1000
+        0x00000004:    eaffffff    ....    B        mymain  ; 0x8
+    mymain
+    .text
+        0x00000008:    e92d4008    .@-.    STMFD    r13!,{r3,r14}
+        0x0000000c:    e3a00024    $...    MOV      r0,#0x24
+        0x00000010:    eb00000d    ....    BL       uart_putchar  ; 0x4c
+        0x00000014:    eb000012    ....    BL       uart_getchar  ; 0x64
+        0x00000018:    eb00000b    ....    BL       uart_putchar  ; 0x4c
+        0x0000001c:    eafffffa    ....    B        0xc
+    uart_init
+    .text
+        0x00000020:    e3a000a0    ....    MOV      r0,#0xa0
+        0x00000024:    e3a01456    V...    MOV      r1,#0x56000000
+        0x00000028:    e5810070    p...    STR      r0,[r1,#0x70]
+        0x0000002c:    e3a01005    ....    MOV      r1,#5
+        0x00000030:    e3a00450    P...    MOV      r0,#0x50000000
+        0x00000034:    e5801004    ....    STR      r1,[r0,#4]
+        0x00000038:    e3a01026    &...    MOV      r1,#0x26
+        0x0000003c:    e5801028    (...    STR      r1,[r0,#0x28]
+        0x00000040:    e3a01003    ....    MOV      r1,#3
+        0x00000044:    e5801000    ....    STR      r1,[r0,#0]
+        0x00000048:    e1a0f00e    ....    MOV      pc,r14
+    uart_putchar
+        0x0000004c:    e3a02450    P$..    MOV      r2,#0x50000000
+        0x00000050:    e5921010    ....    LDR      r1,[r2,#0x10]
+        0x00000054:    e3110004    ....    TST      r1,#4
+        0x00000058:    0afffffc    ....    BEQ      0x50
+        0x0000005c:    e5820020     ...    STR      r0,[r2,#0x20]
+        0x00000060:    e1a0f00e    ....    MOV      pc,r14
+    uart_getchar
+        0x00000064:    e3a01450    P...    MOV      r1,#0x50000000
+        0x00000068:    e5910010    ....    LDR      r0,[r1,#0x10]
+        0x0000006c:    e3100001    ....    TST      r0,#1
+        0x00000070:    0afffffc    ....    BEQ      0x68
+        0x00000074:    e5910024    $...    LDR      r0,[r1,#0x24]
+        0x00000078:    e20000ff    ....    AND      r0,r0,#0xff
+        0x0000007c:    e1a0f00e    ....    MOV      pc,r14
+
+** Section #2 '.debug_frame' (SHT_PROGBITS)
+    Size   : 160 bytes
+
+
+** Section #3 '.symtab' (SHT_SYMTAB)
+    Size   : 224 bytes (alignment 4)
+    String table '.strtab'
+    Last local symbol no. 8
+
+
+** Section #4 '.strtab' (SHT_STRTAB)
+    Size   : 176 bytes
+
+
+** Section #5 '.note' (SHT_NOTE)
+    Size   : 20 bytes (alignment 4)
+
+
+** Section #6 '.comment' (SHT_PROGBITS)
+    Size   : 212 bytes
+
+
+** Section #7 '.shstrtab' (SHT_STRTAB)
+    Size   : 84 bytes
+
+
