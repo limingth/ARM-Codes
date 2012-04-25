@@ -1,0 +1,100 @@
+
+========================================================================
+
+** ELF Header Information
+
+    File Name: demo.axf
+
+    Machine class: ELFCLASS32 (32-bit)
+    Data encoding: ELFDATA2LSB (Little endian)
+    Header version: EV_CURRENT (Current version)
+    File Type: ET_EXEC (Executable) (2)
+    Machine: EM_ARM (ARM)
+
+    Image Entry point: Not specified
+    Flags: EF_ARM_SYMSARESORTED + EF_ARM_MAPSYMSFIRST (0x02000014)
+
+    EABI conformance : ARM EABI Version 2.
+
+    Built with
+    ARM C Compiler, ADS1.2 [Build 805]
+    ARM Linker, ADS1.2 [Build 805] 
+
+    Header size: 52 bytes (0x34)
+    Program header entry size: 32 bytes (0x20)
+    Section header entry size: 40 bytes (0x28)
+
+    Program header entries: 1
+    Section header entries: 8
+
+    Program header offset: 688 (0x000002b0)
+    Section header offset: 720 (0x000002d0)
+
+    Section header string table index: 7
+
+========================================================================
+
+** Program header #0 (PT_LOAD) [PF_X + PF_R]
+    Size : 96 bytes
+    Virtual address: 0x00000000
+
+
+========================================================================
+
+** Section #1 'ER_RO' (SHT_PROGBITS) [SHF_ALLOC + SHF_EXECINSTR]
+    Size   : 96 bytes (alignment 4)
+
+    mymain
+    $a
+    .text
+        0x00000000:    e3a01000    ....    MOV      r1,#0
+        0x00000004:    e3a00453    S...    MOV      r0,#0x53000000
+        0x00000008:    e5801000    ....    STR      r1,[r0,#0]
+        0x0000000c:    e3a00582    ....    MOV      r0,#0x20800000
+        0x00000010:    e5c01000    ....    STRB     r1,[r0,#0]
+        0x00000014:    e3a00456    V...    MOV      r0,#0x56000000
+        0x00000018:    e3a02001    . ..    MOV      r2,#1
+        0x0000001c:    e5802010    . ..    STR      r2,[r0,#0x10]
+        0x00000020:    e5801014    ....    STR      r1,[r0,#0x14]
+        0x00000024:    e5901070    p...    LDR      r1,[r0,#0x70]
+        0x00000028:    e38110a0    ....    ORR      r1,r1,#0xa0
+        0x0000002c:    e5801070    p...    STR      r1,[r0,#0x70]
+        0x00000030:    e3a00450    P...    MOV      r0,#0x50000000
+        0x00000034:    e5901000    ....    LDR      r1,[r0,#0]
+        0x00000038:    e3811003    ....    ORR      r1,r1,#3
+        0x0000003c:    e5801000    ....    STR      r1,[r0,#0]
+        0x00000040:    e5901004    ....    LDR      r1,[r0,#4]
+        0x00000044:    e3811005    ....    ORR      r1,r1,#5
+        0x00000048:    e5801004    ....    STR      r1,[r0,#4]
+        0x0000004c:    e3a01026    &...    MOV      r1,#0x26
+        0x00000050:    e5801028    (...    STR      r1,[r0,#0x28]
+        0x00000054:    e3a01041    A...    MOV      r1,#0x41
+        0x00000058:    e5801020     ...    STR      r1,[r0,#0x20]
+        0x0000005c:    eafffffd    ....    B        0x58
+
+** Section #2 '.debug_frame' (SHT_PROGBITS)
+    Size   : 60 bytes
+
+
+** Section #3 '.symtab' (SHT_SYMTAB)
+    Size   : 112 bytes (alignment 4)
+    String table '.strtab'
+    Last local symbol no. 4
+
+
+** Section #4 '.strtab' (SHT_STRTAB)
+    Size   : 120 bytes
+
+
+** Section #5 '.note' (SHT_NOTE)
+    Size   : 20 bytes (alignment 4)
+
+
+** Section #6 '.comment' (SHT_PROGBITS)
+    Size   : 144 bytes
+
+
+** Section #7 '.shstrtab' (SHT_STRTAB)
+    Size   : 84 bytes
+
+
