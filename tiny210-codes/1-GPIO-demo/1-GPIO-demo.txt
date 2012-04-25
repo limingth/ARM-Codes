@@ -1,0 +1,179 @@
+
+========================================================================
+
+** ELF Header Information
+
+    File Name: 1-GPIO-demo.axf
+
+    Machine class: ELFCLASS32 (32-bit)
+    Data encoding: ELFDATA2LSB (Little endian)
+    Header version: EV_CURRENT (Current version)
+    File Type: ET_EXEC (Executable) (2)
+    Machine: EM_ARM (ARM)
+
+    Image Entry point: 0x21000000
+    Flags: EF_ARM_HASENTRY + EF_ARM_SYMSARESORTED + EF_ARM_MAPSYMSFIRST (0x02000016)
+
+    EABI conformance : ARM EABI Version 2.
+
+    Built with
+    ARM C Compiler, ADS1.2 [Build 805]
+    ARM/Thumb Macro Assembler vsn ADS1.2 [Build 805]
+    ARM Linker, ADS1.2 [Build 805] 
+
+    Header size: 52 bytes (0x34)
+    Program header entry size: 32 bytes (0x20)
+    Section header entry size: 40 bytes (0x28)
+
+    Program header entries: 1
+    Section header entries: 8
+
+    Program header offset: 1884 (0x0000075c)
+    Section header offset: 1916 (0x0000077c)
+
+    Section header string table index: 7
+
+========================================================================
+
+** Program header #0 (PT_LOAD) [PF_X + PF_R + PF_ARM_ENTRY]
+    Size : 320 bytes
+    Virtual address: 0x21000000
+
+
+========================================================================
+
+** Section #1 'ER_RO' (SHT_PROGBITS) [SHF_ALLOC + SHF_EXECINSTR]
+    Size   : 320 bytes (alignment 4)
+    Address: 0x21000000
+
+    start
+    $a
+        0x21000000:    e59fd000    ....    LDR      r13,0x21000008
+        0x21000004:    ea000000    ....    B        mymain  ; 0x2100000c
+    $d
+        0x21000008:    d0030000    ....    DCD    3489857536
+    mymain
+    $a
+    .text
+        0x2100000c:    e92d4038    8@-.    STMFD    r13!,{r3-r5,r14}
+        0x21000010:    eb000018    ....    BL       led_init  ; 0x21000078
+        0x21000014:    eb00002c    ,...    BL       buzzer_init  ; 0x210000cc
+        0x21000018:    eb00003b    ;...    BL       button_init  ; 0x2100010c
+        0x2100001c:    e3a05001    .P..    MOV      r5,#1
+        0x21000020:    e1a00005    ....    MOV      r0,r5
+        0x21000024:    eb00003c    <...    BL       button_is_down  ; 0x2100011c
+        0x21000028:    e3500000    ..P.    CMP      r0,#0
+        0x2100002c:    0a000008    ....    BEQ      0x21000054
+        0x21000030:    e3a04000    .@..    MOV      r4,#0
+        0x21000034:    ea000004    ....    B        0x2100004c
+        0x21000038:    eb000028    (...    BL       buzzer_on  ; 0x210000e0
+        0x2100003c:    eb000008    ....    BL       delay  ; 0x21000064
+        0x21000040:    eb00002b    +...    BL       buzzer_off  ; 0x210000f4
+        0x21000044:    eb000006    ....    BL       delay  ; 0x21000064
+        0x21000048:    e2844001    .@..    ADD      r4,r4,#1
+        0x2100004c:    e1540005    ..T.    CMP      r4,r5
+        0x21000050:    bafffff8    ....    BLT      0x21000038
+        0x21000054:    e2855001    .P..    ADD      r5,r5,#1
+        0x21000058:    e3550004    ..U.    CMP      r5,#4
+        0x2100005c:    daffffef    ....    BLE      0x21000020
+        0x21000060:    eaffffed    ....    B        0x2100001c
+    delay
+    .text
+        0x21000064:    e3a00000    ....    MOV      r0,#0
+        0x21000068:    e2800001    ....    ADD      r0,r0,#1
+        0x2100006c:    e3500540    @.P.    CMP      r0,#0x10000000
+        0x21000070:    bafffffc    ....    BLT      0x21000068
+        0x21000074:    e1a0f00e    ....    MOV      pc,r14
+    led_init
+    .text
+        0x21000078:    e59f0048    H...    LDR      r0,0x210000c8
+        0x2100007c:    e5901280    ....    LDR      r1,[r0,#0x280]
+        0x21000080:    e1a01821    !...    MOV      r1,r1,LSR #16
+        0x21000084:    e1a01801    ....    MOV      r1,r1,LSL #16
+        0x21000088:    e5801280    ....    STR      r1,[r0,#0x280]
+        0x2100008c:    e5901280    ....    LDR      r1,[r0,#0x280]
+        0x21000090:    e3811d44    D...    ORR      r1,r1,#0x1100
+        0x21000094:    e3811011    ....    ORR      r1,r1,#0x11
+        0x21000098:    e5801280    ....    STR      r1,[r0,#0x280]
+        0x2100009c:    e1a0f00e    ....    MOV      pc,r14
+    led_on
+        0x210000a0:    e59f0020     ...    LDR      r0,0x210000c8
+        0x210000a4:    e5901284    ....    LDR      r1,[r0,#0x284]
+        0x210000a8:    e3c1100f    ....    BIC      r1,r1,#0xf
+        0x210000ac:    e5801284    ....    STR      r1,[r0,#0x284]
+        0x210000b0:    e1a0f00e    ....    MOV      pc,r14
+    led_off
+        0x210000b4:    e59f000c    ....    LDR      r0,0x210000c8
+        0x210000b8:    e5901284    ....    LDR      r1,[r0,#0x284]
+        0x210000bc:    e381100f    ....    ORR      r1,r1,#0xf
+        0x210000c0:    e5801284    ....    STR      r1,[r0,#0x284]
+        0x210000c4:    e1a0f00e    ....    MOV      pc,r14
+    $d
+        0x210000c8:    e0200000    .. .    DCD    3760193536
+    buzzer_init
+    $a
+    .text
+        0x210000cc:    e59f0034    4...    LDR      r0,0x21000108
+        0x210000d0:    e59010a0    ....    LDR      r1,[r0,#0xa0]
+        0x210000d4:    e3811001    ....    ORR      r1,r1,#1
+        0x210000d8:    e58010a0    ....    STR      r1,[r0,#0xa0]
+        0x210000dc:    e1a0f00e    ....    MOV      pc,r14
+    buzzer_on
+        0x210000e0:    e59f0020     ...    LDR      r0,0x21000108
+        0x210000e4:    e59010a4    ....    LDR      r1,[r0,#0xa4]
+        0x210000e8:    e3811001    ....    ORR      r1,r1,#1
+        0x210000ec:    e58010a4    ....    STR      r1,[r0,#0xa4]
+        0x210000f0:    e1a0f00e    ....    MOV      pc,r14
+    buzzer_off
+        0x210000f4:    e59f000c    ....    LDR      r0,0x21000108
+        0x210000f8:    e59010a4    ....    LDR      r1,[r0,#0xa4]
+        0x210000fc:    e3c11001    ....    BIC      r1,r1,#1
+        0x21000100:    e58010a4    ....    STR      r1,[r0,#0xa4]
+        0x21000104:    e1a0f00e    ....    MOV      pc,r14
+    $d
+        0x21000108:    e0200000    .. .    DCD    3760193536
+    button_init
+    $a
+    .text
+        0x2100010c:    e59f1028    (...    LDR      r1,0x2100013c
+        0x21000110:    e3a00000    ....    MOV      r0,#0
+        0x21000114:    e5810c40    @...    STR      r0,[r1,#0xc40]
+        0x21000118:    e1a0f00e    ....    MOV      pc,r14
+    button_is_down
+        0x2100011c:    e59f1018    ....    LDR      r1,0x2100013c
+        0x21000120:    e2400001    ..@.    SUB      r0,r0,#1
+        0x21000124:    e5911c44    D...    LDR      r1,[r1,#0xc44]
+        0x21000128:    e3a02001    . ..    MOV      r2,#1
+        0x2100012c:    e1110012    ....    TST      r1,r2,LSL r0
+        0x21000130:    13a00000    ....    MOVNE    r0,#0
+        0x21000134:    03a00001    ....    MOVEQ    r0,#1
+        0x21000138:    e1a0f00e    ....    MOV      pc,r14
+    $d
+        0x2100013c:    e0200000    .. .    DCD    3760193536
+
+** Section #2 '.debug_frame' (SHT_PROGBITS)
+    Size   : 392 bytes
+
+
+** Section #3 '.symtab' (SHT_SYMTAB)
+    Size   : 528 bytes (alignment 4)
+    String table '.strtab'
+    Last local symbol no. 20
+
+
+** Section #4 '.strtab' (SHT_STRTAB)
+    Size   : 252 bytes
+
+
+** Section #5 '.note' (SHT_NOTE)
+    Size   : 20 bytes (alignment 4)
+
+
+** Section #6 '.comment' (SHT_PROGBITS)
+    Size   : 236 bytes
+
+
+** Section #7 '.shstrtab' (SHT_STRTAB)
+    Size   : 84 bytes
+
+

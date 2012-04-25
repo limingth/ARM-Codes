@@ -1,0 +1,364 @@
+
+========================================================================
+
+** ELF Header Information
+
+    File Name: 4-printf-demo.axf
+
+    Machine class: ELFCLASS32 (32-bit)
+    Data encoding: ELFDATA2LSB (Little endian)
+    Header version: EV_CURRENT (Current version)
+    File Type: ET_EXEC (Executable) (2)
+    Machine: EM_ARM (ARM)
+
+    Image Entry point: 0x21000000
+    Flags: EF_ARM_HASENTRY + EF_ARM_SYMSARESORTED + EF_ARM_MAPSYMSFIRST (0x02000016)
+
+    EABI conformance : ARM EABI Version 2.
+
+    Built with
+    ARM C Compiler, ADS1.2 [Build 805]
+    ARM/Thumb Macro Assembler vsn ADS1.2 [Build 805]
+    ARM Linker, ADS1.2 [Build 805] 
+
+    Header size: 52 bytes (0x34)
+    Program header entry size: 32 bytes (0x20)
+    Section header entry size: 40 bytes (0x28)
+
+    Program header entries: 1
+    Section header entries: 9
+
+    Program header offset: 3132 (0x00000c3c)
+    Section header offset: 3164 (0x00000c5c)
+
+    Section header string table index: 8
+
+========================================================================
+
+** Program header #0 (PT_LOAD) [PF_X + PF_W + PF_R + PF_ARM_ENTRY]
+    Size : 1016 bytes (1008 bytes in file)
+    Virtual address: 0x21000000
+
+
+========================================================================
+
+** Section #1 'ER_RO' (SHT_PROGBITS) [SHF_ALLOC + SHF_EXECINSTR]
+    Size   : 1008 bytes (alignment 4)
+    Address: 0x21000000
+
+    start
+    $a
+        0x21000000:    e59fd000    ....    LDR      r13,0x21000008
+        0x21000004:    ea000000    ....    B        mymain  ; 0x2100000c
+    $d
+        0x21000008:    d0030000    ....    DCD    3489857536
+    mymain
+    $a
+    .text
+        0x2100000c:    e92d4008    .@-.    STMFD    r13!,{r3,r14}
+        0x21000010:    eb000033    3...    BL       uart_init  ; 0x210000e4
+        0x21000014:    e28f0060    `...    ADD      r0,pc,#0x60 ; #0x2100007c
+        0x21000018:    eb0000ba    ....    BL       myprintf  ; 0x21000308
+        0x2100001c:    e3a03061    a0..    MOV      r3,#0x61
+        0x21000020:    e3a0206b    k ..    MOV      r2,#0x6b
+        0x21000024:    e3a01061    a...    MOV      r1,#0x61
+        0x21000028:    e28f005c    \...    ADD      r0,pc,#0x5c ; #0x2100008c
+        0x2100002c:    eb0000b5    ....    BL       myprintf  ; 0x21000308
+        0x21000030:    e28f1064    d...    ADD      r1,pc,#0x64 ; #0x2100009c
+        0x21000034:    e28f0064    d...    ADD      r0,pc,#0x64 ; #0x210000a0
+        0x21000038:    eb0000b2    ....    BL       myprintf  ; 0x21000308
+        0x2100003c:    e59f1068    h...    LDR      r1,0x210000ac
+        0x21000040:    e28f0068    h...    ADD      r0,pc,#0x68 ; #0x210000b0
+        0x21000044:    eb0000af    ....    BL       myprintf  ; 0x21000308
+        0x21000048:    e3a01000    ....    MOV      r1,#0
+        0x2100004c:    e28f0068    h...    ADD      r0,pc,#0x68 ; #0x210000bc
+        0x21000050:    eb0000ac    ....    BL       myprintf  ; 0x21000308
+        0x21000054:    e59f106c    l...    LDR      r1,0x210000c8
+        0x21000058:    e28f005c    \...    ADD      r0,pc,#0x5c ; #0x210000bc
+        0x2100005c:    eb0000a9    ....    BL       myprintf  ; 0x21000308
+        0x21000060:    e3a004e0    ....    MOV      r0,#0xe0000000
+        0x21000064:    e5901000    ....    LDR      r1,[r0,#0]
+        0x21000068:    e28f005c    \...    ADD      r0,pc,#0x5c ; #0x210000cc
+        0x2100006c:    eb0000a5    ....    BL       myprintf  ; 0x21000308
+        0x21000070:    eb00001c    ....    BL       uart_getchar  ; 0x210000e8
+        0x21000074:    eb000021    !...    BL       uart_putchar  ; 0x21000100
+        0x21000078:    eafffffc    ....    B        0x21000070
+    $d
+        0x2100007c:    6c6c6568    hell    DCD    1819043176
+        0x21000080:    77202c6f    o, w    DCD    1998597231
+        0x21000084:    646c726f    orld    DCD    1684828783
+        0x21000088:    00000a21    !...    DCD    2593
+        0x2100008c:    6c6c6568    hell    DCD    1819043176
+        0x21000090:    25202c6f    o, %    DCD    622865519
+        0x21000094:    25632563    c%c%    DCD    627254627
+        0x21000098:    00000a63    c...    DCD    2659
+        0x2100009c:    00756465    edu.    DCD    7693413
+        0x210000a0:    6c6c6568    hell    DCD    1819043176
+        0x210000a4:    25202c6f    o, %    DCD    622865519
+        0x210000a8:    00000a73    s...    DCD    2675
+        0x210000ac:    00043110    .1..    DCD    274704
+        0x210000b0:    6c6c6568    hell    DCD    1819043176
+        0x210000b4:    25202c6f    o, %    DCD    622865519
+        0x210000b8:    00000a78    x...    DCD    2680
+        0x210000bc:    6c6c6568    hell    DCD    1819043176
+        0x210000c0:    25202c6f    o, %    DCD    622865519
+        0x210000c4:    00000a64    d...    DCD    2660
+        0x210000c8:    00bc614e    Na..    DCD    12345678
+        0x210000cc:    76703573    s5pv    DCD    1987065203
+        0x210000d0:    20303132    210     DCD    540029234
+        0x210000d4:    70696863    chip    DCD    1885956195
+        0x210000d8:    20646920     id     DCD    543451424
+        0x210000dc:    7830203d    = 0x    DCD    2016419901
+        0x210000e0:    000a7825    %x..    DCD    686117
+    uart_init
+    $a
+    .text
+        0x210000e4:    e1a0f00e    ....    MOV      pc,r14
+    uart_getchar
+        0x210000e8:    e59f1028    (...    LDR      r1,0x21000118
+        0x210000ec:    e5910010    ....    LDR      r0,[r1,#0x10]
+        0x210000f0:    e3100001    ....    TST      r0,#1
+        0x210000f4:    0afffffc    ....    BEQ      0x210000ec
+        0x210000f8:    e5d10024    $...    LDRB     r0,[r1,#0x24]
+        0x210000fc:    e1a0f00e    ....    MOV      pc,r14
+    uart_putchar
+        0x21000100:    e59f2010    . ..    LDR      r2,0x21000118
+        0x21000104:    e5921010    ....    LDR      r1,[r2,#0x10]
+        0x21000108:    e3110004    ....    TST      r1,#4
+        0x2100010c:    0afffffc    ....    BEQ      0x21000104
+        0x21000110:    e5c20020     ...    STRB     r0,[r2,#0x20]
+        0x21000114:    e1a0f00e    ....    MOV      pc,r14
+    $d
+        0x21000118:    e2900000    ....    DCD    3801088000
+    putchar_hex
+    $a
+    .text
+        0x2100011c:    e92d4038    8@-.    STMFD    r13!,{r3-r5,r14}
+        0x21000120:    e1a05000    .P..    MOV      r5,r0
+        0x21000124:    e28f4014    .@..    ADD      r4,pc,#0x14 ; #0x21000140
+        0x21000128:    e7d40220     ...    LDRB     r0,[r4,r0,LSR #4]
+        0x2100012c:    ebfffff3    ....    BL       uart_putchar  ; 0x21000100
+        0x21000130:    e205000f    ....    AND      r0,r5,#0xf
+        0x21000134:    e7d40000    ....    LDRB     r0,[r4,r0]
+        0x21000138:    e8bd4038    8@..    LDMFD    r13!,{r3-r5,r14}
+        0x2100013c:    eaffffef    ....    B        uart_putchar  ; 0x21000100
+    $d
+        0x21000140:    33323130    0123    DCD    858927408
+        0x21000144:    37363534    4567    DCD    926299444
+        0x21000148:    42413938    89AB    DCD    1111570744
+        0x2100014c:    46454443    CDEF    DCD    1178944579
+        0x21000150:    00000000    ....    DCD    0
+    putchar
+    $a
+        0x21000154:    e92d4010    .@-.    STMFD    r13!,{r4,r14}
+        0x21000158:    e1a04000    .@..    MOV      r4,r0
+        0x2100015c:    e350000a    ..P.    CMP      r0,#0xa
+        0x21000160:    03a0000d    ....    MOVEQ    r0,#0xd
+        0x21000164:    0bffffe5    ....    BLEQ     uart_putchar  ; 0x21000100
+        0x21000168:    e1a00004    ....    MOV      r0,r4
+        0x2100016c:    e8bd4010    .@..    LDMFD    r13!,{r4,r14}
+        0x21000170:    eaffffe2    ....    B        uart_putchar  ; 0x21000100
+    putint_hex
+        0x21000174:    e92d4010    .@-.    STMFD    r13!,{r4,r14}
+        0x21000178:    e1a04000    .@..    MOV      r4,r0
+        0x2100017c:    e1a00c20     ...    MOV      r0,r0,LSR #24
+        0x21000180:    ebffffe5    ....    BL       putchar_hex  ; 0x2100011c
+        0x21000184:    e1a00404    ....    MOV      r0,r4,LSL #8
+        0x21000188:    e1a00c20     ...    MOV      r0,r0,LSR #24
+        0x2100018c:    ebffffe2    ....    BL       putchar_hex  ; 0x2100011c
+        0x21000190:    e1a00804    ....    MOV      r0,r4,LSL #16
+        0x21000194:    e1a00c20     ...    MOV      r0,r0,LSR #24
+        0x21000198:    ebffffdf    ....    BL       putchar_hex  ; 0x2100011c
+        0x2100019c:    e20400ff    ....    AND      r0,r4,#0xff
+        0x210001a0:    ebffffdd    ....    BL       putchar_hex  ; 0x2100011c
+        0x210001a4:    e3a00020     ...    MOV      r0,#0x20
+        0x210001a8:    e8bd4010    .@..    LDMFD    r13!,{r4,r14}
+        0x210001ac:    eaffffd3    ....    B        uart_putchar  ; 0x21000100
+    puts
+        0x210001b0:    e92d4038    8@-.    STMFD    r13!,{r3-r5,r14}
+        0x210001b4:    e1a05000    .P..    MOV      r5,r0
+        0x210001b8:    e1a04000    .@..    MOV      r4,r0
+        0x210001bc:    ea000001    ....    B        0x210001c8
+        0x210001c0:    e2844001    .@..    ADD      r4,r4,#1
+        0x210001c4:    ebffffe2    ....    BL       putchar  ; 0x21000154
+        0x210001c8:    e5d40000    ....    LDRB     r0,[r4,#0]
+        0x210001cc:    e3500000    ..P.    CMP      r0,#0
+        0x210001d0:    1afffffa    ....    BNE      0x210001c0
+        0x210001d4:    e0440005    ..D.    SUB      r0,r4,r5
+        0x210001d8:    e8bd8038    8...    LDMFD    r13!,{r3-r5,pc}
+    strlen
+        0x210001dc:    e1a01000    ....    MOV      r1,r0
+        0x210001e0:    e5d12000    . ..    LDRB     r2,[r1,#0]
+        0x210001e4:    e3520000    ..R.    CMP      r2,#0
+        0x210001e8:    12811001    ....    ADDNE    r1,r1,#1
+        0x210001ec:    1afffffb    ....    BNE      0x210001e0
+        0x210001f0:    e0410000    ..A.    SUB      r0,r1,r0
+        0x210001f4:    e1a0f00e    ....    MOV      pc,r14
+    reverse
+        0x210001f8:    e92d4070    p@-.    STMFD    r13!,{r4-r6,r14}
+        0x210001fc:    e59f5100    .Q..    LDR      r5,0x21000304
+        0x21000200:    e1a04000    .@..    MOV      r4,r0
+        0x21000204:    e5950000    ....    LDR      r0,[r5,#0]
+        0x21000208:    e3500000    ..P.    CMP      r0,#0
+        0x2100020c:    05854004    .@..    STREQ    r4,[r5,#4]
+        0x21000210:    e2800001    ....    ADD      r0,r0,#1
+        0x21000214:    e5850000    ....    STR      r0,[r5,#0]
+        0x21000218:    e5d46000    .`..    LDRB     r6,[r4,#0]
+        0x2100021c:    e3560000    ..V.    CMP      r6,#0
+        0x21000220:    03a00000    ....    MOVEQ    r0,#0
+        0x21000224:    05850000    ....    STREQ    r0,[r5,#0]
+        0x21000228:    0a000004    ....    BEQ      0x21000240
+        0x2100022c:    e2840001    ....    ADD      r0,r4,#1
+        0x21000230:    ebfffff0    ....    BL       reverse  ; 0x210001f8
+        0x21000234:    e5950004    ....    LDR      r0,[r5,#4]
+        0x21000238:    e4c06001    .`..    STRB     r6,[r0],#1
+        0x2100023c:    e5850004    ....    STR      r0,[r5,#4]
+        0x21000240:    e1a00004    ....    MOV      r0,r4
+        0x21000244:    e8bd8070    p...    LDMFD    r13!,{r4-r6,pc}
+    reverse_r
+        0x21000248:    e92d40f0    .@-.    STMFD    r13!,{r4-r7,r14}
+        0x2100024c:    e1a04000    .@..    MOV      r4,r0
+        0x21000250:    ebffffe1    ....    BL       strlen  ; 0x210001dc
+        0x21000254:    e5d46000    .`..    LDRB     r6,[r4,#0]
+        0x21000258:    e0845000    .P..    ADD      r5,r4,r0
+        0x2100025c:    e5557001    .pU.    LDRB     r7,[r5,#-1]
+        0x21000260:    e3560000    ..V.    CMP      r6,#0
+        0x21000264:    0a000005    ....    BEQ      0x21000280
+        0x21000268:    e3a00000    ....    MOV      r0,#0
+        0x2100026c:    e5450001    ..E.    STRB     r0,[r5,#-1]
+        0x21000270:    e2840001    ....    ADD      r0,r4,#1
+        0x21000274:    ebffffdf    ....    BL       reverse  ; 0x210001f8
+        0x21000278:    e5c47000    .p..    STRB     r7,[r4,#0]
+        0x2100027c:    e5456001    .`E.    STRB     r6,[r5,#-1]
+        0x21000280:    e1a00004    ....    MOV      r0,r4
+        0x21000284:    e8bd80f0    ....    LDMFD    r13!,{r4-r7,pc}
+    reverse0
+        0x21000288:    e92d4010    .@-.    STMFD    r13!,{r4,r14}
+        0x2100028c:    e1a03000    .0..    MOV      r3,r0
+        0x21000290:    ebffffd1    ....    BL       strlen  ; 0x210001dc
+        0x21000294:    e0802fa0    ./..    ADD      r2,r0,r0,LSR #31
+        0x21000298:    e1a040c2    .@..    MOV      r4,r2,ASR #1
+        0x2100029c:    e3a01000    ....    MOV      r1,#0
+        0x210002a0:    e1540001    ..T.    CMP      r4,r1
+        0x210002a4:    c040c001    ..@.    SUBGT    r12,r0,r1
+        0x210002a8:    c08cc003    ....    ADDGT    r12,r12,r3
+        0x210002ac:    c55ce001    ..\.    LDRGTB   r14,[r12,#-1]
+        0x210002b0:    c7d32001    . ..    LDRGTB   r2,[r3,r1]
+        0x210002b4:    c7c3e001    ....    STRGTB   r14,[r3,r1]
+        0x210002b8:    c54c2001    . L.    STRGTB   r2,[r12,#-1]
+        0x210002bc:    c2811001    ....    ADDGT    r1,r1,#1
+        0x210002c0:    cafffff6    ....    BGT      0x210002a0
+        0x210002c4:    e1a00003    ....    MOV      r0,r3
+        0x210002c8:    e8bd8010    ....    LDMFD    r13!,{r4,pc}
+    itoa
+        0x210002cc:    e92d4038    8@-.    STMFD    r13!,{r3-r5,r14}
+        0x210002d0:    e1a05001    .P..    MOV      r5,r1
+        0x210002d4:    e1a04001    .@..    MOV      r4,r1
+        0x210002d8:    eb000034    4...    BL       __rt_sdiv10  ; 0x210003b0
+        0x210002dc:    e2811030    0...    ADD      r1,r1,#0x30
+        0x210002e0:    e4c41001    ....    STRB     r1,[r4],#1
+        0x210002e4:    e3500000    ..P.    CMP      r0,#0
+        0x210002e8:    1afffffa    ....    BNE      0x210002d8
+        0x210002ec:    e3a00000    ....    MOV      r0,#0
+        0x210002f0:    e5c40000    ....    STRB     r0,[r4,#0]
+        0x210002f4:    e1a00005    ....    MOV      r0,r5
+        0x210002f8:    ebffffbe    ....    BL       reverse  ; 0x210001f8
+        0x210002fc:    e1a00005    ....    MOV      r0,r5
+        0x21000300:    e8bd8038    8...    LDMFD    r13!,{r3-r5,pc}
+    $d
+        0x21000304:    210003f0    ...!    DCD    553649136
+    myprintf
+    $a
+    .text
+        0x21000308:    e92d000f    ..-.    STMFD    r13!,{r0-r3}
+        0x2100030c:    e92d401f    .@-.    STMFD    r13!,{r0-r4,r14}
+        0x21000310:    e28d4018    .@..    ADD      r4,r13,#0x18
+        0x21000314:    ea00001d    ....    B        0x21000390
+        0x21000318:    e3500025    %.P.    CMP      r0,#0x25
+        0x2100031c:    1a000017    ....    BNE      0x21000380
+        0x21000320:    e2810001    ....    ADD      r0,r1,#1
+        0x21000324:    e58d0018    ....    STR      r0,[r13,#0x18]
+        0x21000328:    e5d10001    ....    LDRB     r0,[r1,#1]
+        0x2100032c:    e3500063    c.P.    CMP      r0,#0x63
+        0x21000330:    0a000008    ....    BEQ      0x21000358
+        0x21000334:    e3500064    d.P.    CMP      r0,#0x64
+        0x21000338:    0a00000a    ....    BEQ      0x21000368
+        0x2100033c:    e3500073    s.P.    CMP      r0,#0x73
+        0x21000340:    05b40004    ....    LDREQ    r0,[r4,#4]!
+        0x21000344:    0a00000b    ....    BEQ      0x21000378
+        0x21000348:    e3500078    x.P.    CMP      r0,#0x78
+        0x2100034c:    05b40004    ....    LDREQ    r0,[r4,#4]!
+        0x21000350:    0bffff87    ....    BLEQ     putint_hex  ; 0x21000174
+        0x21000354:    ea00000a    ....    B        0x21000384
+        0x21000358:    e5b40004    ....    LDR      r0,[r4,#4]!
+        0x2100035c:    e20000ff    ....    AND      r0,r0,#0xff
+        0x21000360:    ebffff66    f...    BL       uart_putchar  ; 0x21000100
+        0x21000364:    ea000006    ....    B        0x21000384
+        0x21000368:    e28d1004    ....    ADD      r1,r13,#4
+        0x2100036c:    e5b40004    ....    LDR      r0,[r4,#4]!
+        0x21000370:    ebffffd5    ....    BL       itoa  ; 0x210002cc
+        0x21000374:    e28d0004    ....    ADD      r0,r13,#4
+        0x21000378:    ebffff8c    ....    BL       puts  ; 0x210001b0
+        0x2100037c:    ea000000    ....    B        0x21000384
+        0x21000380:    ebffff73    s...    BL       putchar  ; 0x21000154
+        0x21000384:    e59d0018    ....    LDR      r0,[r13,#0x18]
+        0x21000388:    e2800001    ....    ADD      r0,r0,#1
+        0x2100038c:    e58d0018    ....    STR      r0,[r13,#0x18]
+        0x21000390:    e59d1018    ....    LDR      r1,[r13,#0x18]
+        0x21000394:    e5d10000    ....    LDRB     r0,[r1,#0]
+        0x21000398:    e3500000    ..P.    CMP      r0,#0
+        0x2100039c:    1affffdd    ....    BNE      0x21000318
+        0x210003a0:    e28dd010    ....    ADD      r13,r13,#0x10
+        0x210003a4:    e49d4004    .@..    LDR      r4,[r13],#4
+        0x210003a8:    e3a00000    ....    MOV      r0,#0
+        0x210003ac:    e49df014    ....    LDR      pc,[r13],#0x14
+    __rt_sdiv10
+    .text
+        0x210003b0:    e1b03000    .0..    MOVS     r3,r0
+        0x210003b4:    42600000    ..`B    RSBMI    r0,r0,#0
+        0x210003b8:    e240100a    ..@.    SUB      r1,r0,#0xa
+        0x210003bc:    e0400120     .@.    SUB      r0,r0,r0,LSR #2
+        0x210003c0:    e0800220     ...    ADD      r0,r0,r0,LSR #4
+        0x210003c4:    e0800420     ...    ADD      r0,r0,r0,LSR #8
+        0x210003c8:    e0800820     ...    ADD      r0,r0,r0,LSR #16
+        0x210003cc:    e1a001a0    ....    MOV      r0,r0,LSR #3
+        0x210003d0:    e0802100    .!..    ADD      r2,r0,r0,LSL #2
+        0x210003d4:    e0511082    ..Q.    SUBS     r1,r1,r2,LSL #1
+        0x210003d8:    52800001    ...R    ADDPL    r0,r0,#1
+        0x210003dc:    4281100a    ...B    ADDMI    r1,r1,#0xa
+        0x210003e0:    e1b03003    .0..    MOVS     r3,r3
+        0x210003e4:    42600000    ..`B    RSBMI    r0,r0,#0
+        0x210003e8:    42611000    ..aB    RSBMI    r1,r1,#0
+        0x210003ec:    e1a0f00e    ....    MOV      pc,r14
+
+** Section #2 'ER_ZI' (SHT_NOBITS) [SHF_ALLOC + SHF_WRITE]
+    Size   : 8 bytes (alignment 4)
+    Address: 0x210003f0
+
+
+** Section #3 '.debug_frame' (SHT_PROGBITS)
+    Size   : 644 bytes
+
+
+** Section #4 '.symtab' (SHT_SYMTAB)
+    Size   : 736 bytes (alignment 4)
+    String table '.strtab'
+    Last local symbol no. 28
+
+
+** Section #5 '.strtab' (SHT_STRTAB)
+    Size   : 344 bytes
+
+
+** Section #6 '.note' (SHT_NOTE)
+    Size   : 24 bytes (alignment 4)
+
+
+** Section #7 '.comment' (SHT_PROGBITS)
+    Size   : 240 bytes
+
+
+** Section #8 '.shstrtab' (SHT_STRTAB)
+    Size   : 84 bytes
+
+

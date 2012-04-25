@@ -1,0 +1,160 @@
+
+========================================================================
+
+** ELF Header Information
+
+    File Name: 2-UART-demo.axf
+
+    Machine class: ELFCLASS32 (32-bit)
+    Data encoding: ELFDATA2LSB (Little endian)
+    Header version: EV_CURRENT (Current version)
+    File Type: ET_EXEC (Executable) (2)
+    Machine: EM_ARM (ARM)
+
+    Image Entry point: 0x21000000
+    Flags: EF_ARM_HASENTRY + EF_ARM_SYMSARESORTED + EF_ARM_MAPSYMSFIRST (0x02000016)
+
+    EABI conformance : ARM EABI Version 2.
+
+    Built with
+    ARM C Compiler, ADS1.2 [Build 805]
+    ARM/Thumb Macro Assembler vsn ADS1.2 [Build 805]
+    ARM Linker, ADS1.2 [Build 805] 
+
+    Header size: 52 bytes (0x34)
+    Program header entry size: 32 bytes (0x20)
+    Section header entry size: 40 bytes (0x28)
+
+    Program header entries: 1
+    Section header entries: 8
+
+    Program header offset: 1528 (0x000005f8)
+    Section header offset: 1560 (0x00000618)
+
+    Section header string table index: 7
+
+========================================================================
+
+** Program header #0 (PT_LOAD) [PF_X + PF_R + PF_ARM_ENTRY]
+    Size : 264 bytes
+    Virtual address: 0x21000000
+
+
+========================================================================
+
+** Section #1 'ER_RO' (SHT_PROGBITS) [SHF_ALLOC + SHF_EXECINSTR]
+    Size   : 264 bytes (alignment 4)
+    Address: 0x21000000
+
+    start
+    $a
+        0x21000000:    e59fd000    ....    LDR      r13,0x21000008
+        0x21000004:    ea000000    ....    B        mymain  ; 0x2100000c
+    $d
+        0x21000008:    d0030000    ....    DCD    3489857536
+    mymain
+    $a
+    .text
+        0x2100000c:    e92d4008    .@-.    STMFD    r13!,{r3,r14}
+        0x21000010:    eb00000e    ....    BL       uart_init  ; 0x21000050
+        0x21000014:    e28f0024    $...    ADD      r0,pc,#0x24 ; #0x21000040
+        0x21000018:    eb00002b    +...    BL       puts  ; 0x210000cc
+        0x2100001c:    e3a00030    0...    MOV      r0,#0x30
+        0x21000020:    eb000014    ....    BL       uart_putchar  ; 0x21000078
+        0x21000024:    e3a00078    x...    MOV      r0,#0x78
+        0x21000028:    eb000012    ....    BL       uart_putchar  ; 0x21000078
+        0x2100002c:    e3a000e1    ....    MOV      r0,#0xe1
+        0x21000030:    eb000017    ....    BL       putchar_hex  ; 0x21000094
+        0x21000034:    eb000009    ....    BL       uart_getchar  ; 0x21000060
+        0x21000038:    eb00000e    ....    BL       uart_putchar  ; 0x21000078
+        0x2100003c:    eafffffc    ....    B        0x21000034
+    $d
+        0x21000040:    6c6c6568    hell    DCD    1819043176
+        0x21000044:    77202c6f    o, w    DCD    1998597231
+        0x21000048:    646c726f    orld    DCD    1684828783
+        0x2100004c:    00000a21    !...    DCD    2593
+    uart_init
+    $a
+    .text
+        0x21000050:    e59f1038    8...    LDR      r1,0x21000090
+        0x21000054:    e3a000d5    ....    MOV      r0,#0xd5
+        0x21000058:    e5810028    (...    STR      r0,[r1,#0x28]
+        0x2100005c:    e1a0f00e    ....    MOV      pc,r14
+    uart_getchar
+        0x21000060:    e59f1028    (...    LDR      r1,0x21000090
+        0x21000064:    e5910010    ....    LDR      r0,[r1,#0x10]
+        0x21000068:    e3100001    ....    TST      r0,#1
+        0x2100006c:    0afffffc    ....    BEQ      0x21000064
+        0x21000070:    e5d10024    $...    LDRB     r0,[r1,#0x24]
+        0x21000074:    e1a0f00e    ....    MOV      pc,r14
+    uart_putchar
+        0x21000078:    e59f2010    . ..    LDR      r2,0x21000090
+        0x2100007c:    e5921010    ....    LDR      r1,[r2,#0x10]
+        0x21000080:    e3110004    ....    TST      r1,#4
+        0x21000084:    0afffffc    ....    BEQ      0x2100007c
+        0x21000088:    e5c20020     ...    STRB     r0,[r2,#0x20]
+        0x2100008c:    e1a0f00e    ....    MOV      pc,r14
+    $d
+        0x21000090:    e2900000    ....    DCD    3801088000
+    putchar_hex
+    $a
+    .text
+        0x21000094:    e92d4038    8@-.    STMFD    r13!,{r3-r5,r14}
+        0x21000098:    e1a05000    .P..    MOV      r5,r0
+        0x2100009c:    e28f4014    .@..    ADD      r4,pc,#0x14 ; #0x210000b8
+        0x210000a0:    e7d40220     ...    LDRB     r0,[r4,r0,LSR #4]
+        0x210000a4:    ebfffff3    ....    BL       uart_putchar  ; 0x21000078
+        0x210000a8:    e205000f    ....    AND      r0,r5,#0xf
+        0x210000ac:    e7d40000    ....    LDRB     r0,[r4,r0]
+        0x210000b0:    e8bd4038    8@..    LDMFD    r13!,{r3-r5,r14}
+        0x210000b4:    eaffffef    ....    B        uart_putchar  ; 0x21000078
+    $d
+        0x210000b8:    33323130    0123    DCD    858927408
+        0x210000bc:    37363534    4567    DCD    926299444
+        0x210000c0:    42413938    89AB    DCD    1111570744
+        0x210000c4:    46454443    CDEF    DCD    1178944579
+        0x210000c8:    00000000    ....    DCD    0
+    puts
+    $a
+        0x210000cc:    e92d4070    p@-.    STMFD    r13!,{r4-r6,r14}
+        0x210000d0:    e1a06000    .`..    MOV      r6,r0
+        0x210000d4:    e1a04000    .@..    MOV      r4,r0
+        0x210000d8:    ea000005    ....    B        0x210000f4
+        0x210000dc:    e355000a    ..U.    CMP      r5,#0xa
+        0x210000e0:    03a0000d    ....    MOVEQ    r0,#0xd
+        0x210000e4:    e2844001    .@..    ADD      r4,r4,#1
+        0x210000e8:    0bffffe2    ....    BLEQ     uart_putchar  ; 0x21000078
+        0x210000ec:    e1a00005    ....    MOV      r0,r5
+        0x210000f0:    ebffffe0    ....    BL       uart_putchar  ; 0x21000078
+        0x210000f4:    e5d45000    .P..    LDRB     r5,[r4,#0]
+        0x210000f8:    e3550000    ..U.    CMP      r5,#0
+        0x210000fc:    1afffff6    ....    BNE      0x210000dc
+        0x21000100:    e0440006    ..D.    SUB      r0,r4,r6
+        0x21000104:    e8bd8070    p...    LDMFD    r13!,{r4-r6,pc}
+
+** Section #2 '.debug_frame' (SHT_PROGBITS)
+    Size   : 276 bytes
+
+
+** Section #3 '.symtab' (SHT_SYMTAB)
+    Size   : 416 bytes (alignment 4)
+    String table '.strtab'
+    Last local symbol no. 17
+
+
+** Section #4 '.strtab' (SHT_STRTAB)
+    Size   : 196 bytes
+
+
+** Section #5 '.note' (SHT_NOTE)
+    Size   : 20 bytes (alignment 4)
+
+
+** Section #6 '.comment' (SHT_PROGBITS)
+    Size   : 220 bytes
+
+
+** Section #7 '.shstrtab' (SHT_STRTAB)
+    Size   : 84 bytes
+
+
