@@ -1,0 +1,168 @@
+
+========================================================================
+
+** ELF Header Information
+
+    File Name: demo.axf
+
+    Machine class: ELFCLASS32 (32-bit)
+    Data encoding: ELFDATA2LSB (Little endian)
+    Header version: EV_CURRENT (Current version)
+    File Type: ET_EXEC (Executable) (2)
+    Machine: EM_ARM (ARM)
+
+    Image Entry point: 0x50000000
+    Flags: EF_ARM_HASENTRY + EF_ARM_SYMSARESORTED + EF_ARM_MAPSYMSFIRST (0x02000016)
+
+    EABI conformance : ARM EABI Version 2.
+
+    Built with
+    ARM C Compiler, ADS1.2 [Build 805]
+    ARM/Thumb Macro Assembler vsn ADS1.2 [Build 805]
+    ARM Linker, ADS1.2 [Build 805] 
+
+    Header size: 52 bytes (0x34)
+    Program header entry size: 32 bytes (0x20)
+    Section header entry size: 40 bytes (0x28)
+
+    Program header entries: 1
+    Section header entries: 9
+
+    Program header offset: 1176 (0x00000498)
+    Section header offset: 1208 (0x000004b8)
+
+    Section header string table index: 8
+
+========================================================================
+
+** Program header #0 (PT_LOAD) [PF_X + PF_W + PF_R + PF_ARM_ENTRY]
+    Size : 220 bytes
+    Virtual address: 0x50000000
+
+
+========================================================================
+
+** Section #1 'ER_RO' (SHT_PROGBITS) [SHF_ALLOC + SHF_EXECINSTR]
+    Size   : 204 bytes (alignment 4)
+    Address: 0x50000000
+
+    $a
+    demo
+        0x50000000:    e59fd000    ....    LDR      r13,0x50000008
+        0x50000004:    ea000012    ....    B        mymain  ; 0x50000054
+    $d
+        0x50000008:    0c002000    . ..    DCD    201334784
+    delay
+    $a
+    .text
+        0x5000000c:    e3a00940    @...    MOV      r0,#0x100000
+        0x50000010:    e2500001    ..P.    SUBS     r0,r0,#1
+        0x50000014:    5afffffd    ...Z    BPL      0x50000010
+        0x50000018:    e1a0f00e    ....    MOV      pc,r14
+    led_off
+        0x5000001c:    e59f309c    .0..    LDR      r3,0x500000c0
+        0x50000020:    e5931808    ....    LDR      r1,[r3,#0x808]
+        0x50000024:    e59f2098    . ..    LDR      r2,0x500000c4
+        0x50000028:    e7920100    ....    LDR      r0,[r2,r0,LSL #2]
+        0x5000002c:    e1810000    ....    ORR      r0,r1,r0
+        0x50000030:    e5830808    ....    STR      r0,[r3,#0x808]
+        0x50000034:    e1a0f00e    ....    MOV      pc,r14
+    led_on
+        0x50000038:    e59f3080    .0..    LDR      r3,0x500000c0
+        0x5000003c:    e5931808    ....    LDR      r1,[r3,#0x808]
+        0x50000040:    e59f207c    | ..    LDR      r2,0x500000c4
+        0x50000044:    e7920100    ....    LDR      r0,[r2,r0,LSL #2]
+        0x50000048:    e1c10000    ....    BIC      r0,r1,r0
+        0x5000004c:    e5830808    ....    STR      r0,[r3,#0x808]
+        0x50000050:    e1a0f00e    ....    MOV      pc,r14
+    mymain
+        0x50000054:    e59f106c    l...    LDR      r1,0x500000c8
+        0x50000058:    e59f0060    `...    LDR      r0,0x500000c0
+        0x5000005c:    e52de004    ..-.    STR      r14,[r13,#-4]!
+        0x50000060:    e5801800    ....    STR      r1,[r0,#0x800]
+        0x50000064:    e3a010f0    ....    MOV      r1,#0xf0
+        0x50000068:    e5801808    ....    STR      r1,[r0,#0x808]
+        0x5000006c:    e3a00000    ....    MOV      r0,#0
+        0x50000070:    ebfffff0    ....    BL       led_on  ; 0x50000038
+        0x50000074:    ebffffe4    ....    BL       delay  ; 0x5000000c
+        0x50000078:    e3a00000    ....    MOV      r0,#0
+        0x5000007c:    ebffffe6    ....    BL       led_off  ; 0x5000001c
+        0x50000080:    e3a00001    ....    MOV      r0,#1
+        0x50000084:    ebffffeb    ....    BL       led_on  ; 0x50000038
+        0x50000088:    ebffffdf    ....    BL       delay  ; 0x5000000c
+        0x5000008c:    e3a00001    ....    MOV      r0,#1
+        0x50000090:    ebffffe1    ....    BL       led_off  ; 0x5000001c
+        0x50000094:    e3a00002    ....    MOV      r0,#2
+        0x50000098:    ebffffe6    ....    BL       led_on  ; 0x50000038
+        0x5000009c:    ebffffda    ....    BL       delay  ; 0x5000000c
+        0x500000a0:    e3a00002    ....    MOV      r0,#2
+        0x500000a4:    ebffffdc    ....    BL       led_off  ; 0x5000001c
+        0x500000a8:    e3a00003    ....    MOV      r0,#3
+        0x500000ac:    ebffffe1    ....    BL       led_on  ; 0x50000038
+        0x500000b0:    ebffffd5    ....    BL       delay  ; 0x5000000c
+        0x500000b4:    e3a00004    ....    MOV      r0,#4
+        0x500000b8:    ebffffd7    ....    BL       led_off  ; 0x5000001c
+        0x500000bc:    eaffffea    ....    B        0x5000006c
+    $d
+        0x500000c0:    7f008000    ....    DCD    2130739200
+        0x500000c4:    500000cc    ...P    DCD    1342177484
+        0x500000c8:    11110000    ....    DCD    286326784
+
+** Section #2 'ER_RW' (SHT_PROGBITS) [SHF_ALLOC + SHF_WRITE]
+    Size   : 16 bytes (alignment 4)
+    Address: 0x500000cc
+
+    0x500000cc:   10 00 00 00 20 00 00 00 40 00 00 00 80 00 00 00    .... ...@.......
+
+
+** Section #3 '.debug_frame' (SHT_PROGBITS)
+    Size   : 116 bytes
+
+
+** Section #4 '.symtab' (SHT_SYMTAB)
+    Size   : 304 bytes (alignment 4)
+    String table '.strtab'
+    Last local symbol no. 13
+
+    Symbol table .symtab (18 symbols, 13 local)
+
+      #  Symbol Name                Value      Bind  Sec  Type  Size
+    ========================================================================
+
+      1  $m                         0x00000006   Lc  Abs   -- 
+      2  $a                         0x50000000   Lc    1  Code
+      3  $d                         0x50000008   Lc    1  Data
+      4  $a                         0x5000000c   Lc    1  Code
+      5  $d                         0x500000c0   Lc    1  Data
+      6  $d                         0x500000cc   Lc    2  Data
+      7  start.s                    0x00000000   Lc  Abs  File
+      8  demo                       0x50000000   Lc    1  Sect  0xc
+      9  main.c                     0x00000000   Lc  Abs  File
+     10  .text                      0x5000000c   Lc    1  Sect
+     11  .data                      0x500000cc   Lc    2  Sect
+     12  .data$0                    0x500000cc   Lc    2  Data
+     13  led_pos                    0x500000cc   Lc    2  Data  0x10
+     14  BuildAttributes$$ARM_ISAv4$M$PE$A:L22$X:L11$S22$~IW$USESV6$~STKCKD$USESV7$~SHL$OSPACE
+                                    0x00000000   Gb  Abs   -- 
+     15  delay                      0x5000000c   Gb    1  Code  0x10
+     16  led_off                    0x5000001c   Gb    1  Code  0x1c
+     17  led_on                     0x50000038   Gb    1  Code  0x1c
+     18  mymain                     0x50000054   Gb    1  Code  0x6c
+
+
+** Section #5 '.strtab' (SHT_STRTAB)
+    Size   : 172 bytes
+
+
+** Section #6 '.note' (SHT_NOTE)
+    Size   : 24 bytes (alignment 4)
+
+
+** Section #7 '.comment' (SHT_PROGBITS)
+    Size   : 204 bytes
+
+
+** Section #8 '.shstrtab' (SHT_STRTAB)
+    Size   : 84 bytes
+
+

@@ -1,0 +1,258 @@
+
+========================================================================
+
+** ELF Header Information
+
+    File Name: interrupt.axf
+
+    Machine class: ELFCLASS32 (32-bit)
+    Data encoding: ELFDATA2LSB (Little endian)
+    Header version: EV_CURRENT (Current version)
+    File Type: ET_EXEC (Executable) (2)
+    Machine: EM_ARM (ARM)
+
+    Image Entry point: 0x50000000
+    Flags: EF_ARM_HASENTRY + EF_ARM_SYMSARESORTED + EF_ARM_MAPSYMSFIRST (0x02000016)
+
+    EABI conformance : ARM EABI Version 2.
+
+    Built with
+    ARM C Compiler, ADS1.2 [Build 805]
+    ARM/Thumb Macro Assembler vsn ADS1.2 [Build 805]
+    ARM Linker, ADS1.2 [Build 805] 
+
+    Header size: 52 bytes (0x34)
+    Program header entry size: 32 bytes (0x20)
+    Section header entry size: 40 bytes (0x28)
+
+    Program header entries: 1
+    Section header entries: 8
+
+    Program header offset: 1692 (0x0000069c)
+    Section header offset: 1724 (0x000006bc)
+
+    Section header string table index: 7
+
+========================================================================
+
+** Program header #0 (PT_LOAD) [PF_X + PF_R + PF_ARM_ENTRY]
+    Size : 536 bytes
+    Virtual address: 0x50000000
+
+
+========================================================================
+
+** Section #1 'ER_RO' (SHT_PROGBITS) [SHF_ALLOC + SHF_EXECINSTR]
+    Size   : 536 bytes (alignment 4)
+    Address: 0x50000000
+
+    ENTRY
+    $a
+    asm_code
+        0x50000000:    e3a000d2    ....    MOV      r0,#0xd2
+        0x50000004:    e12ff000    ../.    MSR      CPSR_cxsf,r0
+        0x50000008:    e59fd02c    ,...    LDR      r13,0x5000003c
+        0x5000000c:    e3a000d3    ....    MOV      r0,#0xd3
+        0x50000010:    e12ff000    ../.    MSR      CPSR_cxsf,r0
+        0x50000014:    e59fd024    $...    LDR      r13,0x50000040
+        0x50000018:    ea00003e    >...    B        mymain  ; 0x50000118
+    irq_handler
+        0x5000001c:    e24ee004    ..N.    SUB      r14,r14,#4
+        0x50000020:    e92d5fff    ._-.    STMFD    r13!,{r0-r12,r14}
+        0x50000024:    e14f4000    .@O.    MRS      r4,SPSR
+        0x50000028:    e92d0010    ..-.    STMFD    r13!,{r4}
+        0x5000002c:    eb00002a    *...    BL       do_irq  ; 0x500000dc
+        0x50000030:    e8bd0010    ....    LDMFD    r13!,{r4}
+        0x50000034:    e16ff004    ..o.    MSR      SPSR_cxsf,r4
+        0x50000038:    e8fd9fff    ....    LDMFD    r13!,{r0-r12,pc}^
+    $d
+        0x5000003c:    50002000    . .P    DCD    1342185472
+        0x50000040:    50001000    ...P    DCD    1342181376
+    delay
+    $a
+    .text
+        0x50000044:    e3a00940    @...    MOV      r0,#0x100000
+        0x50000048:    e2500001    ..P.    SUBS     r0,r0,#1
+        0x5000004c:    5afffffd    ...Z    BPL      0x50000048
+        0x50000050:    e1a0f00e    ....    MOV      pc,r14
+    isr1
+        0x50000054:    e59f1190    ....    LDR      r1,0x500001ec
+        0x50000058:    e52de004    ..-.    STR      r14,[r13,#-4]!
+        0x5000005c:    e59100a0    ....    LDR      r0,[r1,#0xa0]
+        0x50000060:    e3800540    @...    ORR      r0,r0,#0x10000000
+        0x50000064:    e58100a0    ....    STR      r0,[r1,#0xa0]
+        0x50000068:    e59100a0    ....    LDR      r0,[r1,#0xa0]
+        0x5000006c:    e3c00580    ....    BIC      r0,r0,#0x20000000
+        0x50000070:    e58100a0    ....    STR      r0,[r1,#0xa0]
+        0x50000074:    e59100a4    ....    LDR      r0,[r1,#0xa4]
+        0x50000078:    e3800c40    @...    ORR      r0,r0,#0x4000
+        0x5000007c:    e58100a4    ....    STR      r0,[r1,#0xa4]
+        0x50000080:    ebffffef    ....    BL       delay  ; 0x50000044
+        0x50000084:    e59100a4    ....    LDR      r0,[r1,#0xa4]
+        0x50000088:    e3c00c40    @...    BIC      r0,r0,#0x4000
+        0x5000008c:    e58100a4    ....    STR      r0,[r1,#0xa4]
+        0x50000090:    e49df004    ....    LDR      pc,[r13],#4
+    isr2
+        0x50000094:    e59f1150    P...    LDR      r1,0x500001ec
+        0x50000098:    e52de004    ..-.    STR      r14,[r13,#-4]!
+        0x5000009c:    e3a00000    ....    MOV      r0,#0
+        0x500000a0:    e5810808    ....    STR      r0,[r1,#0x808]
+        0x500000a4:    ebffffe6    ....    BL       delay  ; 0x50000044
+        0x500000a8:    e3a00090    ....    MOV      r0,#0x90
+        0x500000ac:    e5810808    ....    STR      r0,[r1,#0x808]
+        0x500000b0:    e49de004    ....    LDR      r14,[r13],#4
+        0x500000b4:    eaffffe2    ....    B        delay  ; 0x50000044
+    isr3
+        0x500000b8:    e59f112c    ,...    LDR      r1,0x500001ec
+        0x500000bc:    e52de004    ..-.    STR      r14,[r13,#-4]!
+        0x500000c0:    e3a00000    ....    MOV      r0,#0
+        0x500000c4:    e5810808    ....    STR      r0,[r1,#0x808]
+        0x500000c8:    ebffffdd    ....    BL       delay  ; 0x50000044
+        0x500000cc:    e3a00060    `...    MOV      r0,#0x60
+        0x500000d0:    e5810808    ....    STR      r0,[r1,#0x808]
+        0x500000d4:    e49de004    ....    LDR      r14,[r13],#4
+        0x500000d8:    eaffffd9    ....    B        delay  ; 0x50000044
+    do_irq
+        0x500000dc:    e59f1108    ....    LDR      r1,0x500001ec
+        0x500000e0:    e3a00011    ....    MOV      r0,#0x11
+        0x500000e4:    e5810924    $...    STR      r0,[r1,#0x924]
+        0x500000e8:    e3a00020     ...    MOV      r0,#0x20
+        0x500000ec:    e0411400    ..A.    SUB      r1,r1,r0,LSL #8
+        0x500000f0:    e5810044    D...    STR      r0,[r1,#0x44]
+        0x500000f4:    e59f00f4    ....    LDR      r0,0x500001f0
+        0x500000f8:    e5900f00    ....    LDR      r0,[r0,#0xf00]
+    $p
+        0x500000fc:    e280f000    ....    ADD      pc,r0,#0
+    install_irq_handler
+        0x50000100:    e3a02038    8 ..    MOV      r2,#0x38
+        0x50000104:    e5820000    ....    STR      r0,[r2,#0]
+        0x50000108:    e59f00e4    ....    LDR      r0,0x500001f4
+        0x5000010c:    e3a01018    ....    MOV      r1,#0x18
+        0x50000110:    e5810000    ....    STR      r0,[r1,#0]
+        0x50000114:    e1a0f00e    ....    MOV      pc,r14
+    mymain
+        0x50000118:    e92d4030    0@-.    STMFD    r13!,{r4,r5,r14}
+        0x5000011c:    e59f00d4    ....    LDR      r0,0x500001f8
+        0x50000120:    e59f30c4    .0..    LDR      r3,0x500001ec
+        0x50000124:    e5830800    ....    STR      r0,[r3,#0x800]
+        0x50000128:    e3a000f0    ....    MOV      r0,#0xf0
+        0x5000012c:    e5830808    ....    STR      r0,[r3,#0x808]
+        0x50000130:    e59f10c4    ....    LDR      r1,0x500001fc
+        0x50000134:    e5831830    0...    STR      r1,[r3,#0x830]
+        0x50000138:    e3a020c7    . ..    MOV      r2,#0xc7
+        0x5000013c:    e2430d80    ..C.    SUB      r0,r3,#0x2000
+        0x50000140:    e5802000    . ..    STR      r2,[r0,#0]
+        0x50000144:    e59f20b4    . ..    LDR      r2,0x50000200
+        0x50000148:    e580200c    . ..    STR      r2,[r0,#0xc]
+        0x5000014c:    e59f20b0    . ..    LDR      r2,0x50000204
+        0x50000150:    e5802010    . ..    STR      r2,[r0,#0x10]
+        0x50000154:    e3a05001    .P..    MOV      r5,#1
+        0x50000158:    e5805044    DP..    STR      r5,[r0,#0x44]
+        0x5000015c:    e3a02002    . ..    MOV      r2,#2
+        0x50000160:    e5802008    . ..    STR      r2,[r0,#8]
+        0x50000164:    e3a0200d    . ..    MOV      r2,#0xd
+        0x50000168:    e5802008    . ..    STR      r2,[r0,#8]
+        0x5000016c:    e5831900    ....    STR      r1,[r3,#0x900]
+        0x50000170:    e59f0090    ....    LDR      r0,0x50000208
+        0x50000174:    e59f4074    t@..    LDR      r4,0x500001f0
+        0x50000178:    e5840100    ....    STR      r0,[r4,#0x100]
+        0x5000017c:    e59f1088    ....    LDR      r1,0x5000020c
+        0x50000180:    e5841104    ....    STR      r1,[r4,#0x104]
+        0x50000184:    e584015c    \...    STR      r0,[r4,#0x15c]
+        0x50000188:    e59f0080    ....    LDR      r0,0x50000210
+        0x5000018c:    ebffffdb    ....    BL       install_irq_handler  ; 0x50000100
+        0x50000190:    e5930920     ...    LDR      r0,[r3,#0x920]
+        0x50000194:    e3c00011    ....    BIC      r0,r0,#0x11
+        0x50000198:    e5830920     ...    STR      r0,[r3,#0x920]
+        0x5000019c:    e59f0070    p...    LDR      r0,0x50000214
+        0x500001a0:    e5840010    ....    STR      r0,[r4,#0x10]
+        0x500001a4:    e3a00053    S...    MOV      r0,#0x53
+        0x500001a8:    e12ff000    ../.    MSR      CPSR_cxsf,r0
+        0x500001ac:    e59f1038    8...    LDR      r1,0x500001ec
+        0x500001b0:    e3a02070    p ..    MOV      r2,#0x70
+        0x500001b4:    e3a030f0    .0..    MOV      r3,#0xf0
+        0x500001b8:    e5910924    $...    LDR      r0,[r1,#0x924]
+        0x500001bc:    e3500000    ..P.    CMP      r0,#0
+        0x500001c0:    0a000004    ....    BEQ      0x500001d8
+        0x500001c4:    e3a00000    ....    MOV      r0,#0
+        0x500001c8:    e5810808    ....    STR      r0,[r1,#0x808]
+        0x500001cc:    ebffff9c    ....    BL       delay  ; 0x50000044
+        0x500001d0:    e5815924    $Y..    STR      r5,[r1,#0x924]
+        0x500001d4:    eafffff7    ....    B        0x500001b8
+        0x500001d8:    e5812808    .(..    STR      r2,[r1,#0x808]
+        0x500001dc:    ebffff98    ....    BL       delay  ; 0x50000044
+        0x500001e0:    e5813808    .8..    STR      r3,[r1,#0x808]
+        0x500001e4:    ebffff96    ....    BL       delay  ; 0x50000044
+        0x500001e8:    eafffff2    ....    B        0x500001b8
+    $d
+        0x500001ec:    7f008000    ....    DCD    2130739200
+        0x500001f0:    71200000    .. q    DCD    1897922560
+        0x500001f4:    e59ff018    ....    DCD    3852464152
+        0x500001f8:    11110000    ....    DCD    286326784
+        0x500001fc:    00000202    ....    DCD    514
+        0x50000200:    0000ffff    ....    DCD    65535
+        0x50000204:    0000ea60    `...    DCD    60000
+    $f
+        0x50000208:    50000094    ...P    DCD    1342177428
+    $f
+        0x5000020c:    500000b8    ...P    DCD    1342177464
+    $f
+        0x50000210:    5000001c    ...P    DCD    1342177308
+        0x50000214:    00800003    ....    DCD    8388611
+
+** Section #2 '.debug_frame' (SHT_PROGBITS)
+    Size   : 204 bytes
+
+
+** Section #3 '.symtab' (SHT_SYMTAB)
+    Size   : 384 bytes (alignment 4)
+    String table '.strtab'
+    Last local symbol no. 13
+
+    Symbol table .symtab (23 symbols, 13 local)
+
+      #  Symbol Name                Value      Bind  Sec  Type  Size
+    ========================================================================
+
+      1  $m                         0x00000009   Lc  Abs   -- 
+      2  $a                         0x50000000   Lc    1  Code
+      3  $d                         0x5000003c   Lc    1  Data
+      4  $a                         0x50000044   Lc    1  Code
+      5  $p                         0x500000fc   Lc    1  Code
+      6  $d                         0x500001ec   Lc    1  Data
+      7  $f                         0x50000208   Lc    1  Data
+      8  $f                         0x5000020c   Lc    1  Data
+      9  $f                         0x50000210   Lc    1  Data
+     10  start.s                    0x00000000   Lc  Abs  File
+     11  asm_code                   0x50000000   Lc    1  Sect  0x44
+     12  main.c                     0x00000000   Lc  Abs  File
+     13  .text                      0x50000044   Lc    1  Sect
+     14  BuildAttributes$$ARM_ISAv4$M$PE$A:L22$X:L11$S22$~IW$USESV6$~STKCKD$USESV7$~SHL$OSPACE
+                                    0x00000000   Gb  Abs   -- 
+     15  ENTRY                      0x50000000   Gb    1  Code
+     16  irq_handler                0x5000001c   Gb    1  Code
+     17  delay                      0x50000044   Gb    1  Code  0x10
+     18  isr1                       0x50000054   Gb    1  Code  0x40
+     19  isr2                       0x50000094   Gb    1  Code  0x24
+     20  isr3                       0x500000b8   Gb    1  Code  0x24
+     21  do_irq                     0x500000dc   Gb    1  Code  0x24
+     22  install_irq_handler        0x50000100   Gb    1  Code  0x18
+     23  mymain                     0x50000118   Gb    1  Code  0xd4
+
+
+** Section #4 '.strtab' (SHT_STRTAB)
+    Size   : 208 bytes
+
+
+** Section #5 '.note' (SHT_NOTE)
+    Size   : 20 bytes (alignment 4)
+
+
+** Section #6 '.comment' (SHT_PROGBITS)
+    Size   : 204 bytes
+
+
+** Section #7 '.shstrtab' (SHT_STRTAB)
+    Size   : 84 bytes
+
+

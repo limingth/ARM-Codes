@@ -1,0 +1,122 @@
+
+========================================================================
+
+** ELF Header Information
+
+    File Name: demo.axf
+
+    Machine class: ELFCLASS32 (32-bit)
+    Data encoding: ELFDATA2LSB (Little endian)
+    Header version: EV_CURRENT (Current version)
+    File Type: ET_EXEC (Executable) (2)
+    Machine: EM_ARM (ARM)
+
+    Image Entry point: 0x00000000
+    Flags: EF_ARM_HASENTRY + EF_ARM_SYMSARESORTED + EF_ARM_MAPSYMSFIRST (0x02000016)
+
+    EABI conformance : ARM EABI Version 2.
+
+    Built with
+    ARM/Thumb Macro Assembler vsn ADS1.2 [Build 805]
+    ARM Linker, ADS1.2 [Build 805] 
+
+    Header size: 52 bytes (0x34)
+    Program header entry size: 32 bytes (0x20)
+    Section header entry size: 40 bytes (0x28)
+
+    Program header entries: 1
+    Section header entries: 7
+
+    Program header offset: 656 (0x00000290)
+    Section header offset: 688 (0x000002b0)
+
+    Section header string table index: 6
+
+========================================================================
+
+** Program header #0 (PT_LOAD) [PF_X + PF_R + PF_ARM_ENTRY]
+    Size : 116 bytes
+    Virtual address: 0x00000000
+
+
+========================================================================
+
+** Section #1 'ER_RO' (SHT_PROGBITS) [SHF_ALLOC + SHF_EXECINSTR]
+    Size   : 116 bytes (alignment 4)
+
+    start
+    $a
+    demo
+        0x00000000:    e59f0060    `...    LDR      r0,0x68
+        0x00000004:    e59f1060    `...    LDR      r1,0x6c
+        0x00000008:    e5801000    ....    STR      r1,[r0,#0]
+        0x0000000c:    e59f005c    \...    LDR      r0,0x70
+    blink
+        0x00000010:    e3a01010    ....    MOV      r1,#0x10
+        0x00000014:    e1e01001    ....    MVN      r1,r1
+        0x00000018:    e5801000    ....    STR      r1,[r0,#0]
+        0x0000001c:    eb00000c    ....    BL       delay  ; 0x54
+        0x00000020:    e3a02020      ..    MOV      r2,#0x20
+        0x00000024:    e1e02002    . ..    MVN      r2,r2
+        0x00000028:    e5802000    . ..    STR      r2,[r0,#0]
+        0x0000002c:    eb000008    ....    BL       delay  ; 0x54
+        0x00000030:    e3a03040    @0..    MOV      r3,#0x40
+        0x00000034:    e1e03003    .0..    MVN      r3,r3
+        0x00000038:    e5803000    .0..    STR      r3,[r0,#0]
+        0x0000003c:    eb000004    ....    BL       delay  ; 0x54
+        0x00000040:    e3a04080    .@..    MOV      r4,#0x80
+        0x00000044:    e1e04004    .@..    MVN      r4,r4
+        0x00000048:    e5804000    .@..    STR      r4,[r0,#0]
+        0x0000004c:    eb000000    ....    BL       delay  ; 0x54
+        0x00000050:    eaffffee    ....    B        blink  ; 0x10
+    delay
+        0x00000054:    e3a07940    @y..    MOV      r7,#0x100000
+    loop
+        0x00000058:    e2477001    .pG.    SUB      r7,r7,#1
+        0x0000005c:    e3570000    ..W.    CMP      r7,#0
+        0x00000060:    1afffffc    ....    BNE      loop  ; 0x58
+        0x00000064:    e1a0f00e    ....    MOV      pc,r14
+    $d
+        0x00000068:    7f008800    ....    DCD    2130741248
+        0x0000006c:    11110000    ....    DCD    286326784
+        0x00000070:    7f008808    ....    DCD    2130741256
+
+** Section #2 '.symtab' (SHT_SYMTAB)
+    Size   : 176 bytes (alignment 4)
+    String table '.strtab'
+    Last local symbol no. 8
+
+    Symbol table .symtab (10 symbols, 8 local)
+
+      #  Symbol Name                Value      Bind  Sec  Type  Size
+    ========================================================================
+
+      1  $m                         0x00000003   Lc  Abs   -- 
+      2  $a                         0x00000000   Lc    1  Code
+      3  $d                         0x00000068   Lc    1  Data
+      4  demo.s                     0x00000000   Lc  Abs  File
+      5  demo                       0x00000000   Lc    1  Sect  0x74
+      6  blink                      0x00000010   Lc    1  Code
+      7  delay                      0x00000054   Lc    1  Code
+      8  loop                       0x00000058   Lc    1  Code
+      9  BuildAttributes$$ARM_ISAv4$M$PE$A:L22$X:L11$S22$~IW$~STKCKD$~SHL$OSPACE
+                                    0x00000000   Gb  Abs   -- 
+     10  start                      0x00000000   Gb    1  Code
+
+
+** Section #3 '.strtab' (SHT_STRTAB)
+    Size   : 120 bytes
+
+
+** Section #4 '.note' (SHT_NOTE)
+    Size   : 20 bytes (alignment 4)
+
+
+** Section #5 '.comment' (SHT_PROGBITS)
+    Size   : 112 bytes
+
+
+** Section #6 '.shstrtab' (SHT_STRTAB)
+    Size   : 60 bytes
+
+
