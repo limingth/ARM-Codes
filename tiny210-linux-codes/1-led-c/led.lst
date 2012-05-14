@@ -1,0 +1,57 @@
+
+led.elf:     file format elf32-littlearm
+
+
+Disassembly of section .text:
+
+00008094 <_start>:
+    8094:	e59fd000 	ldr	sp, [pc, #0]	; 809c <_start+0x8>
+    8098:	ea000013 	b	80ec <mymain>
+    809c:	d0030000 	.word	0xd0030000
+
+000080a0 <delay>:
+    80a0:	e52db004 	push	{fp}		; (str fp, [sp, #-4]!)
+    80a4:	e28db000 	add	fp, sp, #0
+    80a8:	e24dd00c 	sub	sp, sp, #12
+    80ac:	e3a03000 	mov	r3, #0
+    80b0:	e50b3008 	str	r3, [fp, #-8]
+    80b4:	e3a03000 	mov	r3, #0
+    80b8:	e50b3008 	str	r3, [fp, #-8]
+    80bc:	ea000002 	b	80cc <delay+0x2c>
+    80c0:	e51b3008 	ldr	r3, [fp, #-8]
+    80c4:	e2833001 	add	r3, r3, #1
+    80c8:	e50b3008 	str	r3, [fp, #-8]
+    80cc:	e51b2008 	ldr	r2, [fp, #-8]
+    80d0:	e59f3010 	ldr	r3, [pc, #16]	; 80e8 <delay+0x48>
+    80d4:	e1520003 	cmp	r2, r3
+    80d8:	dafffff8 	ble	80c0 <delay+0x20>
+    80dc:	e28bd000 	add	sp, fp, #0
+    80e0:	e8bd0800 	pop	{fp}
+    80e4:	e12fff1e 	bx	lr
+    80e8:	0001869f 	.word	0x0001869f
+
+000080ec <mymain>:
+    80ec:	e92d4800 	push	{fp, lr}
+    80f0:	e28db004 	add	fp, sp, #4
+    80f4:	e59f3040 	ldr	r3, [pc, #64]	; 813c <mymain+0x50>
+    80f8:	e59f2040 	ldr	r2, [pc, #64]	; 8140 <mymain+0x54>
+    80fc:	e5832000 	str	r2, [r3]
+    8100:	e59f303c 	ldr	r3, [pc, #60]	; 8144 <mymain+0x58>
+    8104:	e3a02000 	mov	r2, #0
+    8108:	e5832000 	str	r2, [r3]
+    810c:	e59f3034 	ldr	r3, [pc, #52]	; 8148 <mymain+0x5c>
+    8110:	e3a02000 	mov	r2, #0
+    8114:	e5832000 	str	r2, [r3]
+    8118:	e59f3024 	ldr	r3, [pc, #36]	; 8144 <mymain+0x58>
+    811c:	e3a02005 	mov	r2, #5
+    8120:	e5832000 	str	r2, [r3]
+    8124:	ebffffdd 	bl	80a0 <delay>
+    8128:	e59f3014 	ldr	r3, [pc, #20]	; 8144 <mymain+0x58>
+    812c:	e3a0200a 	mov	r2, #10
+    8130:	e5832000 	str	r2, [r3]
+    8134:	ebffffd9 	bl	80a0 <delay>
+    8138:	eafffff6 	b	8118 <mymain+0x2c>
+    813c:	e0200280 	.word	0xe0200280
+    8140:	00001111 	.word	0x00001111
+    8144:	e0200284 	.word	0xe0200284
+    8148:	e0200c40 	.word	0xe0200c40

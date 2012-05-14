@@ -1,0 +1,32 @@
+
+led.elf:     file format elf32-littlearm
+
+
+Disassembly of section .text:
+
+00008074 <_start>:
+    8074:	e3a00001 	mov	r0, #1
+    8078:	e59f1038 	ldr	r1, [pc, #56]	; 80b8 <go_on+0x10>
+    807c:	e5810000 	str	r0, [r1]
+
+00008080 <loop>:
+    8080:	e3a00000 	mov	r0, #0
+    8084:	e59f1030 	ldr	r1, [pc, #48]	; 80bc <go_on+0x14>
+    8088:	e5810000 	str	r0, [r1]
+    808c:	eb000004 	bl	80a4 <delay>
+    8090:	e3a00001 	mov	r0, #1
+    8094:	e59f1020 	ldr	r1, [pc, #32]	; 80bc <go_on+0x14>
+    8098:	e5810000 	str	r0, [r1]
+    809c:	eb000000 	bl	80a4 <delay>
+    80a0:	eafffff6 	b	8080 <loop>
+
+000080a4 <delay>:
+    80a4:	e3a00601 	mov	r0, #1048576	; 0x100000
+
+000080a8 <go_on>:
+    80a8:	e2400001 	sub	r0, r0, #1
+    80ac:	e3500000 	cmp	r0, #0
+    80b0:	1afffffc 	bne	80a8 <go_on>
+    80b4:	e1a0f00e 	mov	pc, lr
+    80b8:	e0200280 	.word	0xe0200280
+    80bc:	e0200284 	.word	0xe0200284

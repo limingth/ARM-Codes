@@ -1,0 +1,192 @@
+
+2-GPIO-demo.elf:     file format elf32-littlearm
+
+
+Disassembly of section .text:
+
+00008094 <_start>:
+    8094:	e59fd000 	ldr	sp, [pc, #0]	; 809c <_start+0x8>
+    8098:	ea00007d 	b	8294 <mymain>
+    809c:	d0030000 	.word	0xd0030000
+
+000080a0 <button_init>:
+    80a0:	e52db004 	push	{fp}		; (str fp, [sp, #-4]!)
+    80a4:	e28db000 	add	fp, sp, #0
+    80a8:	e59f201c 	ldr	r2, [pc, #28]	; 80cc <button_init+0x2c>
+    80ac:	e59f3018 	ldr	r3, [pc, #24]	; 80cc <button_init+0x2c>
+    80b0:	e5933000 	ldr	r3, [r3]
+    80b4:	e1a03823 	lsr	r3, r3, #16
+    80b8:	e1a03803 	lsl	r3, r3, #16
+    80bc:	e5823000 	str	r3, [r2]
+    80c0:	e28bd000 	add	sp, fp, #0
+    80c4:	e8bd0800 	pop	{fp}
+    80c8:	e12fff1e 	bx	lr
+    80cc:	e0200c40 	.word	0xe0200c40
+
+000080d0 <button_is_down>:
+    80d0:	e52db004 	push	{fp}		; (str fp, [sp, #-4]!)
+    80d4:	e28db000 	add	fp, sp, #0
+    80d8:	e24dd014 	sub	sp, sp, #20
+    80dc:	e50b0010 	str	r0, [fp, #-16]
+    80e0:	e51b3010 	ldr	r3, [fp, #-16]
+    80e4:	e2433001 	sub	r3, r3, #1
+    80e8:	e50b3008 	str	r3, [fp, #-8]
+    80ec:	e59f3034 	ldr	r3, [pc, #52]	; 8128 <button_is_down+0x58>
+    80f0:	e5932000 	ldr	r2, [r3]
+    80f4:	e3a01001 	mov	r1, #1
+    80f8:	e51b3008 	ldr	r3, [fp, #-8]
+    80fc:	e1a03311 	lsl	r3, r1, r3
+    8100:	e0023003 	and	r3, r2, r3
+    8104:	e3530000 	cmp	r3, #0
+    8108:	1a000001 	bne	8114 <button_is_down+0x44>
+    810c:	e3a03001 	mov	r3, #1
+    8110:	ea000000 	b	8118 <button_is_down+0x48>
+    8114:	e3a03000 	mov	r3, #0
+    8118:	e1a00003 	mov	r0, r3
+    811c:	e28bd000 	add	sp, fp, #0
+    8120:	e8bd0800 	pop	{fp}
+    8124:	e12fff1e 	bx	lr
+    8128:	e0200c44 	.word	0xe0200c44
+
+0000812c <buzzer_init>:
+    812c:	e52db004 	push	{fp}		; (str fp, [sp, #-4]!)
+    8130:	e28db000 	add	fp, sp, #0
+    8134:	e59f3018 	ldr	r3, [pc, #24]	; 8154 <buzzer_init+0x28>
+    8138:	e59f2014 	ldr	r2, [pc, #20]	; 8154 <buzzer_init+0x28>
+    813c:	e5922000 	ldr	r2, [r2]
+    8140:	e3822001 	orr	r2, r2, #1
+    8144:	e5832000 	str	r2, [r3]
+    8148:	e28bd000 	add	sp, fp, #0
+    814c:	e8bd0800 	pop	{fp}
+    8150:	e12fff1e 	bx	lr
+    8154:	e02000a0 	.word	0xe02000a0
+
+00008158 <buzzer_on>:
+    8158:	e52db004 	push	{fp}		; (str fp, [sp, #-4]!)
+    815c:	e28db000 	add	fp, sp, #0
+    8160:	e59f3018 	ldr	r3, [pc, #24]	; 8180 <buzzer_on+0x28>
+    8164:	e59f2014 	ldr	r2, [pc, #20]	; 8180 <buzzer_on+0x28>
+    8168:	e5922000 	ldr	r2, [r2]
+    816c:	e3822001 	orr	r2, r2, #1
+    8170:	e5832000 	str	r2, [r3]
+    8174:	e28bd000 	add	sp, fp, #0
+    8178:	e8bd0800 	pop	{fp}
+    817c:	e12fff1e 	bx	lr
+    8180:	e02000a4 	.word	0xe02000a4
+
+00008184 <buzzer_off>:
+    8184:	e52db004 	push	{fp}		; (str fp, [sp, #-4]!)
+    8188:	e28db000 	add	fp, sp, #0
+    818c:	e59f3018 	ldr	r3, [pc, #24]	; 81ac <buzzer_off+0x28>
+    8190:	e59f2014 	ldr	r2, [pc, #20]	; 81ac <buzzer_off+0x28>
+    8194:	e5922000 	ldr	r2, [r2]
+    8198:	e3c22001 	bic	r2, r2, #1
+    819c:	e5832000 	str	r2, [r3]
+    81a0:	e28bd000 	add	sp, fp, #0
+    81a4:	e8bd0800 	pop	{fp}
+    81a8:	e12fff1e 	bx	lr
+    81ac:	e02000a4 	.word	0xe02000a4
+
+000081b0 <led_init>:
+    81b0:	e52db004 	push	{fp}		; (str fp, [sp, #-4]!)
+    81b4:	e28db000 	add	fp, sp, #0
+    81b8:	e59f2034 	ldr	r2, [pc, #52]	; 81f4 <led_init+0x44>
+    81bc:	e59f3030 	ldr	r3, [pc, #48]	; 81f4 <led_init+0x44>
+    81c0:	e5933000 	ldr	r3, [r3]
+    81c4:	e1a03823 	lsr	r3, r3, #16
+    81c8:	e1a03803 	lsl	r3, r3, #16
+    81cc:	e5823000 	str	r3, [r2]
+    81d0:	e59f201c 	ldr	r2, [pc, #28]	; 81f4 <led_init+0x44>
+    81d4:	e59f3018 	ldr	r3, [pc, #24]	; 81f4 <led_init+0x44>
+    81d8:	e5933000 	ldr	r3, [r3]
+    81dc:	e3833c11 	orr	r3, r3, #4352	; 0x1100
+    81e0:	e3833011 	orr	r3, r3, #17
+    81e4:	e5823000 	str	r3, [r2]
+    81e8:	e28bd000 	add	sp, fp, #0
+    81ec:	e8bd0800 	pop	{fp}
+    81f0:	e12fff1e 	bx	lr
+    81f4:	e0200280 	.word	0xe0200280
+
+000081f8 <led_on>:
+    81f8:	e52db004 	push	{fp}		; (str fp, [sp, #-4]!)
+    81fc:	e28db000 	add	fp, sp, #0
+    8200:	e59f3018 	ldr	r3, [pc, #24]	; 8220 <led_on+0x28>
+    8204:	e59f2014 	ldr	r2, [pc, #20]	; 8220 <led_on+0x28>
+    8208:	e5922000 	ldr	r2, [r2]
+    820c:	e3c2200f 	bic	r2, r2, #15
+    8210:	e5832000 	str	r2, [r3]
+    8214:	e28bd000 	add	sp, fp, #0
+    8218:	e8bd0800 	pop	{fp}
+    821c:	e12fff1e 	bx	lr
+    8220:	e0200284 	.word	0xe0200284
+
+00008224 <led_off>:
+    8224:	e52db004 	push	{fp}		; (str fp, [sp, #-4]!)
+    8228:	e28db000 	add	fp, sp, #0
+    822c:	e59f3018 	ldr	r3, [pc, #24]	; 824c <led_off+0x28>
+    8230:	e59f2014 	ldr	r2, [pc, #20]	; 824c <led_off+0x28>
+    8234:	e5922000 	ldr	r2, [r2]
+    8238:	e382200f 	orr	r2, r2, #15
+    823c:	e5832000 	str	r2, [r3]
+    8240:	e28bd000 	add	sp, fp, #0
+    8244:	e8bd0800 	pop	{fp}
+    8248:	e12fff1e 	bx	lr
+    824c:	e0200284 	.word	0xe0200284
+
+00008250 <delay>:
+    8250:	e52db004 	push	{fp}		; (str fp, [sp, #-4]!)
+    8254:	e28db000 	add	fp, sp, #0
+    8258:	e24dd00c 	sub	sp, sp, #12
+    825c:	e3a03000 	mov	r3, #0
+    8260:	e50b3008 	str	r3, [fp, #-8]
+    8264:	ea000002 	b	8274 <delay+0x24>
+    8268:	e51b3008 	ldr	r3, [fp, #-8]
+    826c:	e2833001 	add	r3, r3, #1
+    8270:	e50b3008 	str	r3, [fp, #-8]
+    8274:	e51b2008 	ldr	r2, [fp, #-8]
+    8278:	e59f3010 	ldr	r3, [pc, #16]	; 8290 <delay+0x40>
+    827c:	e1520003 	cmp	r2, r3
+    8280:	dafffff8 	ble	8268 <delay+0x18>
+    8284:	e28bd000 	add	sp, fp, #0
+    8288:	e8bd0800 	pop	{fp}
+    828c:	e12fff1e 	bx	lr
+    8290:	0003ffff 	.word	0x0003ffff
+
+00008294 <mymain>:
+    8294:	e92d4800 	push	{fp, lr}
+    8298:	e28db004 	add	fp, sp, #4
+    829c:	e24dd008 	sub	sp, sp, #8
+    82a0:	ebffffc2 	bl	81b0 <led_init>
+    82a4:	ebffffa0 	bl	812c <buzzer_init>
+    82a8:	ebffff7c 	bl	80a0 <button_init>
+    82ac:	e3a03001 	mov	r3, #1
+    82b0:	e50b3008 	str	r3, [fp, #-8]
+    82b4:	ea000017 	b	8318 <mymain+0x84>
+    82b8:	e51b0008 	ldr	r0, [fp, #-8]
+    82bc:	ebffff83 	bl	80d0 <button_is_down>
+    82c0:	e1a03000 	mov	r3, r0
+    82c4:	e3530000 	cmp	r3, #0
+    82c8:	0a00000f 	beq	830c <mymain+0x78>
+    82cc:	e3a03000 	mov	r3, #0
+    82d0:	e50b300c 	str	r3, [fp, #-12]
+    82d4:	ea000008 	b	82fc <mymain+0x68>
+    82d8:	ebffff9e 	bl	8158 <buzzer_on>
+    82dc:	ebffffc5 	bl	81f8 <led_on>
+    82e0:	ebffffda 	bl	8250 <delay>
+    82e4:	ebffffa6 	bl	8184 <buzzer_off>
+    82e8:	ebffffcd 	bl	8224 <led_off>
+    82ec:	ebffffd7 	bl	8250 <delay>
+    82f0:	e51b300c 	ldr	r3, [fp, #-12]
+    82f4:	e2833001 	add	r3, r3, #1
+    82f8:	e50b300c 	str	r3, [fp, #-12]
+    82fc:	e51b200c 	ldr	r2, [fp, #-12]
+    8300:	e51b3008 	ldr	r3, [fp, #-8]
+    8304:	e1520003 	cmp	r2, r3
+    8308:	bafffff2 	blt	82d8 <mymain+0x44>
+    830c:	e51b3008 	ldr	r3, [fp, #-8]
+    8310:	e2833001 	add	r3, r3, #1
+    8314:	e50b3008 	str	r3, [fp, #-8]
+    8318:	e51b3008 	ldr	r3, [fp, #-8]
+    831c:	e3530004 	cmp	r3, #4
+    8320:	daffffe4 	ble	82b8 <mymain+0x24>
+    8324:	eaffffe0 	b	82ac <mymain+0x18>
