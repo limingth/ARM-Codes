@@ -26,7 +26,8 @@ void uart_init(void)
 int uart_putchar(char c)
 {
 	// polling UTRSTAT0	
-	//while ((UTRSTAT0 & (1<<2)) == 0)	while (!(UTRSTAT0 & (1<<2)))
+	//while ((UTRSTAT0 & (1<<2)) == 0)
+	while (!(UTRSTAT0 & (1<<2)))
 		;
 
 	UTXH0 = c;
