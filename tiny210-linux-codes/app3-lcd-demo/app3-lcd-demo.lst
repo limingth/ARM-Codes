@@ -1,0 +1,409 @@
+
+app3-lcd-demo.elf:     file format elf32-littlearm
+
+
+Disassembly of section .text:
+
+21000000 <_start>:
+21000000:	e59fd008 	ldr	sp, [pc, #8]	; 21000010 <_start+0x10>
+21000004:	e3a00053 	mov	r0, #83	; 0x53
+21000008:	e12ff000 	msr	CPSR_fsxc, r0
+2100000c:	ea0000fd 	b	21000408 <mymain>
+21000010:	d0028000 	.word	0xd0028000
+
+21000014 <lcd_init>:
+21000014:	e52db004 	push	{fp}		; (str fp, [sp, #-4]!)
+21000018:	e28db000 	add	fp, sp, #0
+2100001c:	e59f3178 	ldr	r3, [pc, #376]	; 2100019c <lcd_init+0x188>
+21000020:	e59f2178 	ldr	r2, [pc, #376]	; 210001a0 <lcd_init+0x18c>
+21000024:	e5832000 	str	r2, [r3]
+21000028:	e59f3174 	ldr	r3, [pc, #372]	; 210001a4 <lcd_init+0x190>
+2100002c:	e59f216c 	ldr	r2, [pc, #364]	; 210001a0 <lcd_init+0x18c>
+21000030:	e5832000 	str	r2, [r3]
+21000034:	e59f316c 	ldr	r3, [pc, #364]	; 210001a8 <lcd_init+0x194>
+21000038:	e59f2160 	ldr	r2, [pc, #352]	; 210001a0 <lcd_init+0x18c>
+2100003c:	e5832000 	str	r2, [r3]
+21000040:	e59f3164 	ldr	r3, [pc, #356]	; 210001ac <lcd_init+0x198>
+21000044:	e59f2154 	ldr	r2, [pc, #340]	; 210001a0 <lcd_init+0x18c>
+21000048:	e5832000 	str	r2, [r3]
+2100004c:	e59f315c 	ldr	r3, [pc, #348]	; 210001b0 <lcd_init+0x19c>
+21000050:	e59f2158 	ldr	r2, [pc, #344]	; 210001b0 <lcd_init+0x19c>
+21000054:	e5922000 	ldr	r2, [r2]
+21000058:	e3822010 	orr	r2, r2, #16
+2100005c:	e5832000 	str	r2, [r3]
+21000060:	e59f314c 	ldr	r3, [pc, #332]	; 210001b4 <lcd_init+0x1a0>
+21000064:	e59f2148 	ldr	r2, [pc, #328]	; 210001b4 <lcd_init+0x1a0>
+21000068:	e5922000 	ldr	r2, [r2]
+2100006c:	e3822002 	orr	r2, r2, #2
+21000070:	e5832000 	str	r2, [r3]
+21000074:	e59f313c 	ldr	r3, [pc, #316]	; 210001b8 <lcd_init+0x1a4>
+21000078:	e3a02002 	mov	r2, #2
+2100007c:	e5832000 	str	r2, [r3]
+21000080:	e3a0333e 	mov	r3, #-134217728	; 0xf8000000
+21000084:	e3a0233e 	mov	r2, #-134217728	; 0xf8000000
+21000088:	e5922000 	ldr	r2, [r2]
+2100008c:	e3822003 	orr	r2, r2, #3
+21000090:	e5832000 	str	r2, [r3]
+21000094:	e3a0333e 	mov	r3, #-134217728	; 0xf8000000
+21000098:	e3a0233e 	mov	r2, #-134217728	; 0xf8000000
+2100009c:	e5922000 	ldr	r2, [r2]
+210000a0:	e3822010 	orr	r2, r2, #16
+210000a4:	e5832000 	str	r2, [r3]
+210000a8:	e3a0333e 	mov	r3, #-134217728	; 0xf8000000
+210000ac:	e3a0233e 	mov	r2, #-134217728	; 0xf8000000
+210000b0:	e5922000 	ldr	r2, [r2]
+210000b4:	e3822d0e 	orr	r2, r2, #896	; 0x380
+210000b8:	e5832000 	str	r2, [r3]
+210000bc:	e59f30f8 	ldr	r3, [pc, #248]	; 210001bc <lcd_init+0x1a8>
+210000c0:	e59f20f4 	ldr	r2, [pc, #244]	; 210001bc <lcd_init+0x1a8>
+210000c4:	e5922000 	ldr	r2, [r2]
+210000c8:	e3822060 	orr	r2, r2, #96	; 0x60
+210000cc:	e5832000 	str	r2, [r3]
+210000d0:	e59f30e8 	ldr	r3, [pc, #232]	; 210001c0 <lcd_init+0x1ac>
+210000d4:	e59f20e8 	ldr	r2, [pc, #232]	; 210001c4 <lcd_init+0x1b0>
+210000d8:	e5832000 	str	r2, [r3]
+210000dc:	e59f30e4 	ldr	r3, [pc, #228]	; 210001c8 <lcd_init+0x1b4>
+210000e0:	e59f20e0 	ldr	r2, [pc, #224]	; 210001c8 <lcd_init+0x1b4>
+210000e4:	e5922000 	ldr	r2, [r2]
+210000e8:	e3822001 	orr	r2, r2, #1
+210000ec:	e5832000 	str	r2, [r3]
+210000f0:	e59f30d0 	ldr	r3, [pc, #208]	; 210001c8 <lcd_init+0x1b4>
+210000f4:	e59f20cc 	ldr	r2, [pc, #204]	; 210001c8 <lcd_init+0x1b4>
+210000f8:	e5922000 	ldr	r2, [r2]
+210000fc:	e382202c 	orr	r2, r2, #44	; 0x2c
+21000100:	e5832000 	str	r2, [r3]
+21000104:	e59f30c0 	ldr	r3, [pc, #192]	; 210001cc <lcd_init+0x1b8>
+21000108:	e59f20bc 	ldr	r2, [pc, #188]	; 210001cc <lcd_init+0x1b8>
+2100010c:	e5922000 	ldr	r2, [r2]
+21000110:	e5832000 	str	r2, [r3]
+21000114:	e59f30b0 	ldr	r3, [pc, #176]	; 210001cc <lcd_init+0x1b8>
+21000118:	e59f20ac 	ldr	r2, [pc, #172]	; 210001cc <lcd_init+0x1b8>
+2100011c:	e5922000 	ldr	r2, [r2]
+21000120:	e5832000 	str	r2, [r3]
+21000124:	e59f20a4 	ldr	r2, [pc, #164]	; 210001d0 <lcd_init+0x1bc>
+21000128:	e59f30a0 	ldr	r3, [pc, #160]	; 210001d0 <lcd_init+0x1bc>
+2100012c:	e5933000 	ldr	r3, [r3]
+21000130:	e3833aef 	orr	r3, r3, #978944	; 0xef000
+21000134:	e3833b02 	orr	r3, r3, #2048	; 0x800
+21000138:	e5823000 	str	r3, [r2]
+2100013c:	e59f208c 	ldr	r2, [pc, #140]	; 210001d0 <lcd_init+0x1bc>
+21000140:	e59f3088 	ldr	r3, [pc, #136]	; 210001d0 <lcd_init+0x1bc>
+21000144:	e5933000 	ldr	r3, [r3]
+21000148:	e3833f43 	orr	r3, r3, #268	; 0x10c
+2100014c:	e3833003 	orr	r3, r3, #3
+21000150:	e5823000 	str	r3, [r2]
+21000154:	e59f3078 	ldr	r3, [pc, #120]	; 210001d4 <lcd_init+0x1c0>
+21000158:	e3a02423 	mov	r2, #587202560	; 0x23000000
+2100015c:	e5832000 	str	r2, [r3]
+21000160:	e59f3070 	ldr	r3, [pc, #112]	; 210001d8 <lcd_init+0x1c4>
+21000164:	e59f2070 	ldr	r2, [pc, #112]	; 210001dc <lcd_init+0x1c8>
+21000168:	e5832000 	str	r2, [r3]
+2100016c:	e59f306c 	ldr	r3, [pc, #108]	; 210001e0 <lcd_init+0x1cc>
+21000170:	e59f206c 	ldr	r2, [pc, #108]	; 210001e4 <lcd_init+0x1d0>
+21000174:	e5832000 	str	r2, [r3]
+21000178:	e59f3068 	ldr	r3, [pc, #104]	; 210001e8 <lcd_init+0x1d4>
+2100017c:	e59f2068 	ldr	r2, [pc, #104]	; 210001ec <lcd_init+0x1d8>
+21000180:	e5832000 	str	r2, [r3]
+21000184:	e59f3064 	ldr	r3, [pc, #100]	; 210001f0 <lcd_init+0x1dc>
+21000188:	e3a02001 	mov	r2, #1
+2100018c:	e5832000 	str	r2, [r3]
+21000190:	e28bd000 	add	sp, fp, #0
+21000194:	e8bd0800 	pop	{fp}
+21000198:	e12fff1e 	bx	lr
+2100019c:	e0200120 	.word	0xe0200120
+210001a0:	22222222 	.word	0x22222222
+210001a4:	e0200140 	.word	0xe0200140
+210001a8:	e0200160 	.word	0xe0200160
+210001ac:	e0200180 	.word	0xe0200180
+210001b0:	e02000a0 	.word	0xe02000a0
+210001b4:	e02000a4 	.word	0xe02000a4
+210001b8:	e0107008 	.word	0xe0107008
+210001bc:	f8000004 	.word	0xf8000004
+210001c0:	f8000018 	.word	0xf8000018
+210001c4:	000879df 	.word	0x000879df
+210001c8:	f8000020 	.word	0xf8000020
+210001cc:	f8000040 	.word	0xf8000040
+210001d0:	f8000044 	.word	0xf8000044
+210001d4:	f80000a0 	.word	0xf80000a0
+210001d8:	f80000d0 	.word	0xf80000d0
+210001dc:	2307f800 	.word	0x2307f800
+210001e0:	f8000010 	.word	0xf8000010
+210001e4:	00070107 	.word	0x00070107
+210001e8:	f8000014 	.word	0xf8000014
+210001ec:	00040127 	.word	0x00040127
+210001f0:	f8000034 	.word	0xf8000034
+
+210001f4 <lcd_draw_pixel>:
+210001f4:	e52db004 	push	{fp}		; (str fp, [sp, #-4]!)
+210001f8:	e28db000 	add	fp, sp, #0
+210001fc:	e24dd01c 	sub	sp, sp, #28
+21000200:	e50b0010 	str	r0, [fp, #-16]
+21000204:	e50b1014 	str	r1, [fp, #-20]
+21000208:	e50b2018 	str	r2, [fp, #-24]
+2100020c:	e3a03423 	mov	r3, #587202560	; 0x23000000
+21000210:	e50b3008 	str	r3, [fp, #-8]
+21000214:	e51b2010 	ldr	r2, [fp, #-16]
+21000218:	e1a03002 	mov	r3, r2
+2100021c:	e1a03203 	lsl	r3, r3, #4
+21000220:	e0623003 	rsb	r3, r2, r3
+21000224:	e1a03283 	lsl	r3, r3, #5
+21000228:	e1a02003 	mov	r2, r3
+2100022c:	e51b3014 	ldr	r3, [fp, #-20]
+21000230:	e0823003 	add	r3, r2, r3
+21000234:	e1a03103 	lsl	r3, r3, #2
+21000238:	e51b2008 	ldr	r2, [fp, #-8]
+2100023c:	e0823003 	add	r3, r2, r3
+21000240:	e51b2018 	ldr	r2, [fp, #-24]
+21000244:	e5832000 	str	r2, [r3]
+21000248:	e28bd000 	add	sp, fp, #0
+2100024c:	e8bd0800 	pop	{fp}
+21000250:	e12fff1e 	bx	lr
+
+21000254 <lcd_clear_screen>:
+21000254:	e92d4800 	push	{fp, lr}
+21000258:	e28db004 	add	fp, sp, #4
+2100025c:	e24dd010 	sub	sp, sp, #16
+21000260:	e50b0010 	str	r0, [fp, #-16]
+21000264:	e3a03000 	mov	r3, #0
+21000268:	e50b3008 	str	r3, [fp, #-8]
+2100026c:	ea000010 	b	210002b4 <lcd_clear_screen+0x60>
+21000270:	e3a03000 	mov	r3, #0
+21000274:	e50b300c 	str	r3, [fp, #-12]
+21000278:	ea000006 	b	21000298 <lcd_clear_screen+0x44>
+2100027c:	e51b0008 	ldr	r0, [fp, #-8]
+21000280:	e51b100c 	ldr	r1, [fp, #-12]
+21000284:	e51b2010 	ldr	r2, [fp, #-16]
+21000288:	ebffffd9 	bl	210001f4 <lcd_draw_pixel>
+2100028c:	e51b300c 	ldr	r3, [fp, #-12]
+21000290:	e2833001 	add	r3, r3, #1
+21000294:	e50b300c 	str	r3, [fp, #-12]
+21000298:	e51b200c 	ldr	r2, [fp, #-12]
+2100029c:	e59f3028 	ldr	r3, [pc, #40]	; 210002cc <lcd_clear_screen+0x78>
+210002a0:	e1520003 	cmp	r2, r3
+210002a4:	dafffff4 	ble	2100027c <lcd_clear_screen+0x28>
+210002a8:	e51b3008 	ldr	r3, [fp, #-8]
+210002ac:	e2833001 	add	r3, r3, #1
+210002b0:	e50b3008 	str	r3, [fp, #-8]
+210002b4:	e51b2008 	ldr	r2, [fp, #-8]
+210002b8:	e59f3010 	ldr	r3, [pc, #16]	; 210002d0 <lcd_clear_screen+0x7c>
+210002bc:	e1520003 	cmp	r2, r3
+210002c0:	daffffea 	ble	21000270 <lcd_clear_screen+0x1c>
+210002c4:	e24bd004 	sub	sp, fp, #4
+210002c8:	e8bd8800 	pop	{fp, pc}
+210002cc:	000001df 	.word	0x000001df
+210002d0:	0000010f 	.word	0x0000010f
+
+210002d4 <lcd_draw_hline>:
+210002d4:	e92d4800 	push	{fp, lr}
+210002d8:	e28db004 	add	fp, sp, #4
+210002dc:	e24dd018 	sub	sp, sp, #24
+210002e0:	e50b0010 	str	r0, [fp, #-16]
+210002e4:	e50b1014 	str	r1, [fp, #-20]
+210002e8:	e50b2018 	str	r2, [fp, #-24]
+210002ec:	e50b301c 	str	r3, [fp, #-28]
+210002f0:	e51b3014 	ldr	r3, [fp, #-20]
+210002f4:	e50b3008 	str	r3, [fp, #-8]
+210002f8:	ea000006 	b	21000318 <lcd_draw_hline+0x44>
+210002fc:	e51b0010 	ldr	r0, [fp, #-16]
+21000300:	e51b1008 	ldr	r1, [fp, #-8]
+21000304:	e51b201c 	ldr	r2, [fp, #-28]
+21000308:	ebffffb9 	bl	210001f4 <lcd_draw_pixel>
+2100030c:	e51b3008 	ldr	r3, [fp, #-8]
+21000310:	e2833001 	add	r3, r3, #1
+21000314:	e50b3008 	str	r3, [fp, #-8]
+21000318:	e51b2008 	ldr	r2, [fp, #-8]
+2100031c:	e51b3018 	ldr	r3, [fp, #-24]
+21000320:	e1520003 	cmp	r2, r3
+21000324:	dafffff4 	ble	210002fc <lcd_draw_hline+0x28>
+21000328:	e24bd004 	sub	sp, fp, #4
+2100032c:	e8bd8800 	pop	{fp, pc}
+
+21000330 <lcd_draw_vline>:
+21000330:	e92d4800 	push	{fp, lr}
+21000334:	e28db004 	add	fp, sp, #4
+21000338:	e24dd018 	sub	sp, sp, #24
+2100033c:	e50b0010 	str	r0, [fp, #-16]
+21000340:	e50b1014 	str	r1, [fp, #-20]
+21000344:	e50b2018 	str	r2, [fp, #-24]
+21000348:	e50b301c 	str	r3, [fp, #-28]
+2100034c:	e51b3014 	ldr	r3, [fp, #-20]
+21000350:	e50b3008 	str	r3, [fp, #-8]
+21000354:	ea000006 	b	21000374 <lcd_draw_vline+0x44>
+21000358:	e51b0008 	ldr	r0, [fp, #-8]
+2100035c:	e51b1010 	ldr	r1, [fp, #-16]
+21000360:	e51b201c 	ldr	r2, [fp, #-28]
+21000364:	ebffffa2 	bl	210001f4 <lcd_draw_pixel>
+21000368:	e51b3008 	ldr	r3, [fp, #-8]
+2100036c:	e2833001 	add	r3, r3, #1
+21000370:	e50b3008 	str	r3, [fp, #-8]
+21000374:	e51b2008 	ldr	r2, [fp, #-8]
+21000378:	e51b3018 	ldr	r3, [fp, #-24]
+2100037c:	e1520003 	cmp	r2, r3
+21000380:	dafffff4 	ble	21000358 <lcd_draw_vline+0x28>
+21000384:	e24bd004 	sub	sp, fp, #4
+21000388:	e8bd8800 	pop	{fp, pc}
+
+2100038c <lcd_draw_cross>:
+2100038c:	e92d4800 	push	{fp, lr}
+21000390:	e28db004 	add	fp, sp, #4
+21000394:	e24dd010 	sub	sp, sp, #16
+21000398:	e50b0008 	str	r0, [fp, #-8]
+2100039c:	e50b100c 	str	r1, [fp, #-12]
+210003a0:	e50b2010 	str	r2, [fp, #-16]
+210003a4:	e50b3014 	str	r3, [fp, #-20]
+210003a8:	e51b200c 	ldr	r2, [fp, #-12]
+210003ac:	e51b3010 	ldr	r3, [fp, #-16]
+210003b0:	e0632002 	rsb	r2, r3, r2
+210003b4:	e51b100c 	ldr	r1, [fp, #-12]
+210003b8:	e51b3010 	ldr	r3, [fp, #-16]
+210003bc:	e0813003 	add	r3, r1, r3
+210003c0:	e51b0008 	ldr	r0, [fp, #-8]
+210003c4:	e1a01002 	mov	r1, r2
+210003c8:	e1a02003 	mov	r2, r3
+210003cc:	e51b3014 	ldr	r3, [fp, #-20]
+210003d0:	ebffffbf 	bl	210002d4 <lcd_draw_hline>
+210003d4:	e51b2008 	ldr	r2, [fp, #-8]
+210003d8:	e51b3010 	ldr	r3, [fp, #-16]
+210003dc:	e0632002 	rsb	r2, r3, r2
+210003e0:	e51b1008 	ldr	r1, [fp, #-8]
+210003e4:	e51b3010 	ldr	r3, [fp, #-16]
+210003e8:	e0813003 	add	r3, r1, r3
+210003ec:	e51b000c 	ldr	r0, [fp, #-12]
+210003f0:	e1a01002 	mov	r1, r2
+210003f4:	e1a02003 	mov	r2, r3
+210003f8:	e51b3014 	ldr	r3, [fp, #-20]
+210003fc:	ebffffcb 	bl	21000330 <lcd_draw_vline>
+21000400:	e24bd004 	sub	sp, fp, #4
+21000404:	e8bd8800 	pop	{fp, pc}
+
+21000408 <mymain>:
+21000408:	e92d4800 	push	{fp, lr}
+2100040c:	e28db004 	add	fp, sp, #4
+21000410:	e3a00031 	mov	r0, #49	; 0x31
+21000414:	eb00004c 	bl	2100054c <uart_putchar>
+21000418:	ebfffefd 	bl	21000014 <lcd_init>
+2100041c:	e3a00032 	mov	r0, #50	; 0x32
+21000420:	eb000049 	bl	2100054c <uart_putchar>
+21000424:	e3a008ff 	mov	r0, #16711680	; 0xff0000
+21000428:	ebffff89 	bl	21000254 <lcd_clear_screen>
+2100042c:	e3a00033 	mov	r0, #51	; 0x33
+21000430:	eb000045 	bl	2100054c <uart_putchar>
+21000434:	e3a00088 	mov	r0, #136	; 0x88
+21000438:	e3a01064 	mov	r1, #100	; 0x64
+2100043c:	e3a02f5f 	mov	r2, #380	; 0x17c
+21000440:	e3e034ff 	mvn	r3, #-16777216	; 0xff000000
+21000444:	ebffffa2 	bl	210002d4 <lcd_draw_hline>
+21000448:	e3a000f0 	mov	r0, #240	; 0xf0
+2100044c:	e3a01032 	mov	r1, #50	; 0x32
+21000450:	e3a020de 	mov	r2, #222	; 0xde
+21000454:	e3e034ff 	mvn	r3, #-16777216	; 0xff000000
+21000458:	ebffffb4 	bl	21000330 <lcd_draw_vline>
+2100045c:	e3a00032 	mov	r0, #50	; 0x32
+21000460:	e3a01032 	mov	r1, #50	; 0x32
+21000464:	e3a02014 	mov	r2, #20
+21000468:	e3a03000 	mov	r3, #0
+2100046c:	ebffffc6 	bl	2100038c <lcd_draw_cross>
+21000470:	e3a00032 	mov	r0, #50	; 0x32
+21000474:	e59f1044 	ldr	r1, [pc, #68]	; 210004c0 <mymain+0xb8>
+21000478:	e3a02014 	mov	r2, #20
+2100047c:	e3a03000 	mov	r3, #0
+21000480:	ebffffc1 	bl	2100038c <lcd_draw_cross>
+21000484:	e3a000de 	mov	r0, #222	; 0xde
+21000488:	e3a01032 	mov	r1, #50	; 0x32
+2100048c:	e3a02014 	mov	r2, #20
+21000490:	e3a03000 	mov	r3, #0
+21000494:	ebffffbc 	bl	2100038c <lcd_draw_cross>
+21000498:	e3a000de 	mov	r0, #222	; 0xde
+2100049c:	e59f101c 	ldr	r1, [pc, #28]	; 210004c0 <mymain+0xb8>
+210004a0:	e3a02014 	mov	r2, #20
+210004a4:	e3a03000 	mov	r3, #0
+210004a8:	ebffffb7 	bl	2100038c <lcd_draw_cross>
+210004ac:	e3a0006f 	mov	r0, #111	; 0x6f
+210004b0:	eb000025 	bl	2100054c <uart_putchar>
+210004b4:	e3a0006b 	mov	r0, #107	; 0x6b
+210004b8:	eb000023 	bl	2100054c <uart_putchar>
+210004bc:	eafffffe 	b	210004bc <mymain+0xb4>
+210004c0:	000001ae 	.word	0x000001ae
+
+210004c4 <uart_init>:
+210004c4:	e52db004 	push	{fp}		; (str fp, [sp, #-4]!)
+210004c8:	e28db000 	add	fp, sp, #0
+210004cc:	e59f305c 	ldr	r3, [pc, #92]	; 21000530 <uart_init+0x6c>
+210004d0:	e59f2058 	ldr	r2, [pc, #88]	; 21000530 <uart_init+0x6c>
+210004d4:	e5922000 	ldr	r2, [r2]
+210004d8:	e3c220ff 	bic	r2, r2, #255	; 0xff
+210004dc:	e5832000 	str	r2, [r3]
+210004e0:	e59f3048 	ldr	r3, [pc, #72]	; 21000530 <uart_init+0x6c>
+210004e4:	e59f2044 	ldr	r2, [pc, #68]	; 21000530 <uart_init+0x6c>
+210004e8:	e5922000 	ldr	r2, [r2]
+210004ec:	e3822022 	orr	r2, r2, #34	; 0x22
+210004f0:	e5832000 	str	r2, [r3]
+210004f4:	e59f3038 	ldr	r3, [pc, #56]	; 21000534 <uart_init+0x70>
+210004f8:	e3a02003 	mov	r2, #3
+210004fc:	e5832000 	str	r2, [r3]
+21000500:	e59f3030 	ldr	r3, [pc, #48]	; 21000538 <uart_init+0x74>
+21000504:	e59f2030 	ldr	r2, [pc, #48]	; 2100053c <uart_init+0x78>
+21000508:	e5832000 	str	r2, [r3]
+2100050c:	e59f302c 	ldr	r3, [pc, #44]	; 21000540 <uart_init+0x7c>
+21000510:	e3a02023 	mov	r2, #35	; 0x23
+21000514:	e5832000 	str	r2, [r3]
+21000518:	e59f3024 	ldr	r3, [pc, #36]	; 21000544 <uart_init+0x80>
+2100051c:	e59f2024 	ldr	r2, [pc, #36]	; 21000548 <uart_init+0x84>
+21000520:	e5832000 	str	r2, [r3]
+21000524:	e28bd000 	add	sp, fp, #0
+21000528:	e8bd0800 	pop	{fp}
+2100052c:	e12fff1e 	bx	lr
+21000530:	e0200000 	.word	0xe0200000
+21000534:	e2900000 	.word	0xe2900000
+21000538:	e2900004 	.word	0xe2900004
+2100053c:	00000245 	.word	0x00000245
+21000540:	e2900028 	.word	0xe2900028
+21000544:	e290002c 	.word	0xe290002c
+21000548:	00000808 	.word	0x00000808
+
+2100054c <uart_putchar>:
+2100054c:	e52db004 	push	{fp}		; (str fp, [sp, #-4]!)
+21000550:	e28db000 	add	fp, sp, #0
+21000554:	e24dd00c 	sub	sp, sp, #12
+21000558:	e1a03000 	mov	r3, r0
+2100055c:	e54b3005 	strb	r3, [fp, #-5]
+21000560:	e1a00000 	nop			; (mov r0, r0)
+21000564:	e59f302c 	ldr	r3, [pc, #44]	; 21000598 <uart_putchar+0x4c>
+21000568:	e5933000 	ldr	r3, [r3]
+2100056c:	e2033004 	and	r3, r3, #4
+21000570:	e3530000 	cmp	r3, #0
+21000574:	0afffffa 	beq	21000564 <uart_putchar+0x18>
+21000578:	e59f301c 	ldr	r3, [pc, #28]	; 2100059c <uart_putchar+0x50>
+2100057c:	e55b2005 	ldrb	r2, [fp, #-5]
+21000580:	e5c32000 	strb	r2, [r3]
+21000584:	e3a03000 	mov	r3, #0
+21000588:	e1a00003 	mov	r0, r3
+2100058c:	e28bd000 	add	sp, fp, #0
+21000590:	e8bd0800 	pop	{fp}
+21000594:	e12fff1e 	bx	lr
+21000598:	e2900010 	.word	0xe2900010
+2100059c:	e2900020 	.word	0xe2900020
+
+210005a0 <uart_getchar>:
+210005a0:	e52db004 	push	{fp}		; (str fp, [sp, #-4]!)
+210005a4:	e28db000 	add	fp, sp, #0
+210005a8:	e24dd00c 	sub	sp, sp, #12
+210005ac:	e1a00000 	nop			; (mov r0, r0)
+210005b0:	e59f302c 	ldr	r3, [pc, #44]	; 210005e4 <uart_getchar+0x44>
+210005b4:	e5933000 	ldr	r3, [r3]
+210005b8:	e2033001 	and	r3, r3, #1
+210005bc:	e3530000 	cmp	r3, #0
+210005c0:	0afffffa 	beq	210005b0 <uart_getchar+0x10>
+210005c4:	e59f301c 	ldr	r3, [pc, #28]	; 210005e8 <uart_getchar+0x48>
+210005c8:	e5d33000 	ldrb	r3, [r3]
+210005cc:	e54b3005 	strb	r3, [fp, #-5]
+210005d0:	e55b3005 	ldrb	r3, [fp, #-5]
+210005d4:	e1a00003 	mov	r0, r3
+210005d8:	e28bd000 	add	sp, fp, #0
+210005dc:	e8bd0800 	pop	{fp}
+210005e0:	e12fff1e 	bx	lr
+210005e4:	e2900010 	.word	0xe2900010
+210005e8:	e2900024 	.word	0xe2900024
+
+app3-lcd-demo.elf:     file format elf32-littlearm
+
