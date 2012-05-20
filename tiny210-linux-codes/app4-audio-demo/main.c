@@ -23,14 +23,14 @@ int mymain(void)
 		IISTXD = offset++;
 		//	delay();
 	#else			
-		// polling  Primary Tx FIFO0 empty status indication. 
+		// polling  Primary Tx FIFO0 full status indication. 
 		while((IISCON & (1<<8)) == (1<<8));
 		
 		IISTXD = *(p+offset);
 		
 		offset++;
 		if (offset > (882046-0x2e) /2)			// 882046 is file size
-			offset = 0;			// replay
+			offset = 0x2E;			// replay from wav data offset
 	#endif	
 	}
 	
