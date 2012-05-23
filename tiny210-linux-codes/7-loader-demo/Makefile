@@ -10,7 +10,7 @@ LD = $(CROSS)ld
 AS = $(CROSS)as
 OBJCOPY = $(CROSS)objcopy
 OBJDUMP = $(CROSS)objdump
-CFLAGS = -Wall
+CFLAGS = -Wall -O1		# we add -O1 optimazation for smaller code size
 LDFLAGS = -Ttext 0xD0020010
 
 all: $(PRJ).bin

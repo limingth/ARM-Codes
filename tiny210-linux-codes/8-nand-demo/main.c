@@ -16,6 +16,7 @@ int mymain(void)
 
 	led_init();
 	uart_init();
+
 	nand_init();
 	nand_read_id(buf);
 	putchar_hex(buf[0]);

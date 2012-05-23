@@ -1,5 +1,4 @@
 
-#PRJ = 4-UART-demo
 PRJ = $(shell basename `pwd`)
 #PRJ = ${PWD##*/}
 SRC = $(wildcard *.c)

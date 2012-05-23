@@ -92,11 +92,15 @@ int loadx(int argc, char *argv[])
 
 int go(int argc, char * argv[])
 {
+	int addr = DOWN_BIN_ADDR;
 	void (*fp)(void);
 	
-	printf("go to address 0x%x\n", DOWN_BIN_ADDR);
+	if (argc >= 2)
+		addr = atoi(argv[1]);
+	
+	printf("go to address 0x%x\n", addr);
 
-	fp = (void (*)(void))DOWN_BIN_ADDR;
+	fp = (void (*)(void))addr;
 	
 	fp();
 	
@@ -110,7 +114,11 @@ int nand(int argc, char *argv[])
 	unsigned int size;
 	
 	if (argc < 5)
+	{
+		printf("nand read sdram_addr nand_addr size\n");
+		printf("for example: nand read 0xd0024000 0x0 2048\n");
 		return 0;
+	}
 		
 	sdram_addr = atoi(argv[2]);
 	nand_addr = atoi(argv[3]);

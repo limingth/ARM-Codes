@@ -1,5 +1,11 @@
 #include "uart.h"
 
+/*
+ * in this stdio.c, '\n' will be treated as '\r'+'\n'
+ * if you putchar('\n') then you will put 2 char: Return and Newline ("\r\n")
+ * in return for this, if you getchar() return '\n' that means Enter key pressed (which is actually '\r')
+ */
+
 int putchar(int c)
 {
 	if (c == '\n')
@@ -22,6 +28,9 @@ int getchar(void)
 	
 	c = (int)uart_getchar();
 	
+	if (c == '\r')
+		return '\n';
+	
 	return c;
 }
 
@@ -37,7 +46,8 @@ char * gets(char * s)
 {
 	char * p = s;
 	
-	while ((*p = getchar()) != '\r')
+	// note: here we use getchar(), not uart_getchar() for portability
+	while ((*p = getchar()) != '\n')
 	{
 		if (*p != '\b')
 			putchar(*p++);

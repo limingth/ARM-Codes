@@ -1,14 +1,12 @@
-#include "stdio.h"
+// here we use uart_putchar() & uart_getchar() for raw data
+#include "uart.h"
 
 #define NAK 0x15
 #define EOT 0x04
 #define ACK 0x06
 
-static void delay()
-{
-	int i;
-	for(i = 0; i < 0x100000; i++);
-}
+// delay time depend on external clock setting, see lib.c
+extern void delay(void);
 
 void xmodem_recv(char *addr)
 {
@@ -16,19 +14,19 @@ void xmodem_recv(char *addr)
 	int i;
 	for (c = '9'; c > '0'; c--)
 	{
-		putchar(c);
+		uart_putchar(c);
 		delay();
 	}
 	
-	putchar(NAK);
-	while (getchar() != EOT)
+	uart_putchar(NAK);
+	while (uart_getchar() != EOT)
 	{
-		getchar(); 
-		getchar();
+		uart_getchar(); 
+		uart_getchar();
 		for (i = 0; i < 128; i++)
-			*addr++ = getchar();
-		getchar();
-		putchar(ACK);
+			*addr++ = uart_getchar();
+		uart_getchar();
+		uart_putchar(ACK);
 	}
-	putchar(ACK);
+	uart_putchar(ACK);
 }
