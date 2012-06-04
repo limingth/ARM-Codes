@@ -33,6 +33,7 @@ b burn:
 	#sudo dd iflag=dsync oflag=dsync if=/dev/zero of=/dev/sdb seek=1 count=48
 	sudo dd iflag=dsync oflag=dsync if=$(PRJ)-sd.bin of=/dev/sdb seek=1 count=16
 	#sudo dd iflag=dsync oflag=dsync if=/dev/zero of=/dev/sdb seek=17 count=32
+	# 1949696 = 0x1DC000
 	sudo dd iflag=dsync oflag=dsync if=bootloader/bootloader.bin of=/dev/sdb seek=1949696
 
 c clean:

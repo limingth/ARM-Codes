@@ -27,9 +27,61 @@
 #define VIDTCON0 	(*(volatile unsigned int *)0xF8000010)
 #define VIDTCON1 	(*(volatile unsigned int *)0xF8000014)
 
-#define FB_ADDR		(0x23000000)
+#define FB_ADDR		(0x22000000)
 #define COL	480
 #define ROW	272	
+
+void lcd_init_as_linux(void)
+{
+	// GPIO Functional as LCD Signals
+	GPF0CON = 0x22222222;		// GPF0[7:0]
+	GPF1CON = 0x22222222;		// GPF1[7:0]
+	GPF2CON = 0x22222222;		// GPF2[7:0]
+	GPF3CON = 0x22222222;		// GPF3[7:0]
+
+	// XpwmTOUT1 GPD0_1 output high level
+	// GPD0 Control Register (GPD0CON, R/W, Address = 0xE020_00A0)
+	GPD0CON |= 1<<4;
+	GPD0DAT |= 1<<1;
+
+	// clock init (CLK_SRC1, CLK_DIV1 are optional)
+	DISPLAY_CONTROL = 2<<0;		// 10: RGB=FIMD I80=FIMD ITU=FIMD
+
+	*(volatile int *)0xf8000000 = 0x417;
+	//*(volatile int *)0xf8000004 = 0xa3c060;
+	*(volatile int *)0xf8000004 = 0xddc060;
+	//*(volatile int *)0xf8000010 = 0x70701;
+	*(volatile int *)0xf8000010 = 0x242763;
+	*(volatile int *)0xf8000014 = 0x270401;
+	*(volatile int *)0xf8000018 = 0x879df;
+	*(volatile int *)0xf800001c = 0x0;
+	*(volatile int *)0xf8000028 = 0x8077;
+	*(volatile int *)0xf8000034 = 0x4;
+	*(volatile int *)0xf800003c = 0x7d517d51;
+	*(volatile int *)0xf8000064 = 0xef90f;
+	*(volatile int *)0xf800006c = 0x1fe00;
+	*(volatile int *)0xf80000b0 = 0x35faf000;
+	*(volatile int *)0xf80000e0 = 0x3602e800;
+	*(volatile int *)0xf80000f0 = 0x6000;
+	*(volatile int *)0xf8000108 = 0x780;
+	*(volatile int *)0xf8000130 = 0x9001;
+	*(volatile int *)0xf80001c0 = 0x10040100;
+	*(volatile int *)0xf80001ec = 0x1000100;
+	*(volatile int *)0xf80001f8 = 0x1000100;
+	*(volatile int *)0xf80001fc = 0x1800080;
+
+	// fb address
+	//VIDW00ADD0B0 = FB_ADDR;
+	//VIDW00ADD1B0 = FB_ADDR + ROW * COL * 4;
+	
+	// linux use WIN2, so ...
+	*(volatile int *)0xf80000b0 = FB_ADDR;	//0x35faf000;
+	*(volatile int *)0xf80000e0 = FB_ADDR + ROW * COL * 4;	//0x3602e800;
+
+	*(volatile int *)0xf80040b0 = FB_ADDR;	//0x35faf000;
+	*(volatile int *)0xf80040e0 = FB_ADDR + ROW * COL * 4;	//0x3602e800;
+	*(volatile int *)0xf8004108 = 0x780;	//0x3602e800;
+}
 
 void lcd_init(void)
 {
@@ -63,7 +115,7 @@ void lcd_init(void)
 	
 	// LCD module para, see H43-HSD043I9W1.pdf p13
 	VIDCON0 |= 14<<6;	// 166M/(14+1) = 11M < 12M(max)
-		
+
 	// LCD module para, see H43-HSD043I9W1.pdf p13
 	// IHSYNC  [6]  Specifies the HSYNC pulse polarity. 
 	//	0 = Normal               
@@ -85,7 +137,12 @@ void lcd_init(void)
 	// BPPMODE_F [5:2] Select the BPP (Bits Per Pixel) mode Window image.  
 	// 1011 = unpacked 24 BPP (non-palletized R:8-G:8-B:8 )  
 	WINCON0 |= 0xB<<2;
-	
+
+	// WSWP_F  [15]  Specifies the Word swap control bit. 
+	// 0 = Swap Disable         
+	// 1 = Swap Enable 
+	WINCON0 |= 1<<15;	
+
 	// left top pixel (0, 0)
 	VIDOSD0A |= 0<<11;
 	VIDOSD0A |= 0<<0;
@@ -118,7 +175,7 @@ void lcd_init(void)
 void lcd_draw_pixel(int row, int col, int color)
 {
 	int * pixel = (int *)FB_ADDR;
-	
+
 	*(pixel + row * COL + col) = color;	
 
 	return;
@@ -130,7 +187,9 @@ void lcd_clear_screen(int color)
 		
 	for (i = 0; i < ROW; i++)
 		for (j = 0; j < COL; j++)
+		{
 			lcd_draw_pixel(i, j, color);
+		}
 
 	return;
 }
@@ -140,7 +199,9 @@ void lcd_draw_hline(int row, int col1, int col2, int color)
 	int j;
 	
 	for (j = col1; j <= col2; j++)
+	{
 		lcd_draw_pixel(row, j, color);
+	}
 
 	return;
 }
@@ -150,7 +211,9 @@ void lcd_draw_vline(int col, int row1, int row2, int color)
 	int i;
 	
 	for (i = row1; i <= row2; i++)
+	{
 		lcd_draw_pixel(i, col, color);
+	}
 
 	return;
 }
@@ -163,3 +226,30 @@ void lcd_draw_cross(int row, int col, int halflen, int color)
 	
 	return;
 }
+
+
+void lcd_draw_bmp(int bmp_file_addr)
+{
+	int i, j;
+	char * p = (char *)bmp_file_addr;
+	int blue, green, red;
+	int color;
+
+	// read bmp file
+	// bmp file header is 54 bytes
+	p += 54;
+	
+	for (i = 0; i < 272; i++)
+		for (j = 0; j < 480; j++)
+		{
+			blue = *p++;
+			green = *p++;
+			red = *p++;
+		
+			color = red << 16 | green << 8 | blue << 0;
+			
+			lcd_draw_pixel(271-i, j, color);
+		}
+
+	return;
+}		

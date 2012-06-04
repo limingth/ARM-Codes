@@ -5,7 +5,7 @@ void delay(void)
 {
 	int i;
 	
-	for (i = 0; i < 0x100000; i++)
+	for (i = 0; i < 0x3000000; i++)
 		;
 }
 

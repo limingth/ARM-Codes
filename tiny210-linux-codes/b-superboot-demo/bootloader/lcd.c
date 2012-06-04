@@ -63,7 +63,7 @@ void lcd_init(void)
 	
 	// LCD module para, see H43-HSD043I9W1.pdf p13
 	VIDCON0 |= 14<<6;	// 166M/(14+1) = 11M < 12M(max)
-		
+
 	// LCD module para, see H43-HSD043I9W1.pdf p13
 	// IHSYNC  [6]  Specifies the HSYNC pulse polarity. 
 	//	0 = Normal               
@@ -85,7 +85,12 @@ void lcd_init(void)
 	// BPPMODE_F [5:2] Select the BPP (Bits Per Pixel) mode Window image.  
 	// 1011 = unpacked 24 BPP (non-palletized R:8-G:8-B:8 )  
 	WINCON0 |= 0xB<<2;
-	
+
+	// WSWP_F  [15]  Specifies the Word swap control bit. 
+	// 0 = Swap Disable         
+	// 1 = Swap Enable 
+	WINCON0 |= 1<<15;	
+
 	// left top pixel (0, 0)
 	VIDOSD0A |= 0<<11;
 	VIDOSD0A |= 0<<0;
@@ -118,7 +123,7 @@ void lcd_init(void)
 void lcd_draw_pixel(int row, int col, int color)
 {
 	int * pixel = (int *)FB_ADDR;
-	
+
 	*(pixel + row * COL + col) = color;	
 
 	return;
@@ -130,7 +135,9 @@ void lcd_clear_screen(int color)
 		
 	for (i = 0; i < ROW; i++)
 		for (j = 0; j < COL; j++)
+		{
 			lcd_draw_pixel(i, j, color);
+		}
 
 	return;
 }
@@ -140,7 +147,9 @@ void lcd_draw_hline(int row, int col1, int col2, int color)
 	int j;
 	
 	for (j = col1; j <= col2; j++)
+	{
 		lcd_draw_pixel(row, j, color);
+	}
 
 	return;
 }
@@ -150,7 +159,9 @@ void lcd_draw_vline(int col, int row1, int row2, int color)
 	int i;
 	
 	for (i = row1; i <= row2; i++)
+	{
 		lcd_draw_pixel(i, col, color);
+	}
 
 	return;
 }

@@ -13,7 +13,7 @@ OBJDUMP = $(CROSS)objdump
 #CFLAGS = -Wall -O1
 CFLAGS = -O1
 #LDFLAGS = -Ttext 0xD0030010
-LDFLAGS = -Ttext 0x20800000
+LDFLAGS = -Ttext 0x20A00000
 
 all: $(PRJ).bin
 	ls -l *.bin

@@ -9,7 +9,6 @@
 #include "fat.h"
 #include "lcd.h"
 
-
 int mymain(void)
 {
 	char * autocmd[] = {"sdload tian.bmp 0x21800000", "draw 0x21800000", "sdload today.wav 0x23000000", "play 0x23000000"};
@@ -20,9 +19,12 @@ int mymain(void)
 	int i = 0;
 	int counter = 0;
 
+	int flag = 0;
+
 	led_init();
 	led_on();
 
+	printf("init ...");
 	uart_init();
 
 	nand_init();
@@ -46,14 +48,40 @@ int mymain(void)
 #define W	480
 #define H	272
 	lcd_init();
-	//lcd_clear_screen(0xFF0000);	// red	
-	//lcd_draw_hline(H/2, 100, W-100, 0xffffff);	// white
-	//lcd_draw_vline(W/2, 50, H-50, 0xffffff);	// white
+	lcd_clear_screen(0xFF0000);	// red	
+	lcd_draw_hline(H/2, 100, W-100, 0xffffff);	// white
+	lcd_draw_vline(W/2, 50, H-50, 0xffffff);	// white
+	
+	printf("ok!");
 
 	printf("\n\n" __DATE__ "  " __TIME__ "\n");
 	printf("welcome to my boot v2.0 \n\n");
 	
 	//printf("test: %c,%s,%d,%x\n", 'A', "abcdef", 11, 0x23);
+
+	printf("please enter a key to shell mode in 3 seconds... \n");
+	
+	while (i < 0x400000)
+	{
+		if ((UTRSTAT0 & (1<<0)) == 1)
+		{
+			flag = 1;
+			break;
+		}
+		
+		if ( (i & 0x0fffff) == 0 )
+			printf("%d ", 3 - (i>>20));
+			
+		i++;
+	}
+	
+	if (flag == 1)	
+	{
+		printf("auto cmd line is ommited!\n");
+		counter = 4;
+	}
+	else
+		printf("auto cmd line is performed!\n");
 
 	while (1)
 	{

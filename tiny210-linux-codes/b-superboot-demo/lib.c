@@ -1,5 +1,24 @@
 
 #include "uart.h"
+#include "stdio.h"
+
+void putchar_hex(char c)
+{
+	char * hex = "0123456789ABCDEF";	// good
+	//char hex[] = "0123456789ABCDEF";	bad!
+	
+	putchar(hex[(c & 0xf0)>>4]);
+	putchar(hex[(c & 0x0f)>>0]);
+	//putchar(' ');
+}
+
+void putint_hex(int a)
+{
+	putchar_hex( (a>>24) & 0xFF );
+	putchar_hex( (a>>16) & 0xFF );
+	putchar_hex( (a>>8) & 0xFF );
+	putchar_hex( (a>>0) & 0xFF );
+}
 
 void delay(void)
 {
@@ -8,6 +27,8 @@ void delay(void)
 	for (i = 0; i < 0x100000; i++)
 		;
 }
+
+
 
 int atoi(char * buf)
 {

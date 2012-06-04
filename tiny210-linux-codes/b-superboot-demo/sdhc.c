@@ -2,7 +2,12 @@
 #include "uart.h"
 #include "stdio.h"
 
-#define printf 		//
+#define printf 	mydebug	
+
+int mydebug(const char * format, ...)
+{
+	return 0;
+}
 
 typedef enum _SDHC_REGS {
 	SDHC_SYS_ADDR						= 0x00,
