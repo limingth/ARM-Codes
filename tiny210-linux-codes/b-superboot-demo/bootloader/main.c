@@ -5,21 +5,19 @@
 #include "shell.h"
 #include "command.h"
 #include "nand.h"
-#include "210sdhc.h"
+#include "sdhc.h"
 #include "fat.h"
 #include "lcd.h"
 
 int mymain(void)
 {
-	char * autocmd[] = {"sdload tian.bmp 0x21800000", "draw 0x21800000", "sdload today.wav 0x23000000", "play 0x23000000"};
-
-	char buf[64];
+	char buf[128];
 	int argc = 0;
 	char * argv[10];
 	int i = 0;
-	int counter = 0;
 
 	int flag = 0;
+	char ini_buf[128];
 
 	led_init();
 	led_on();
@@ -75,25 +73,28 @@ int mymain(void)
 		i++;
 	}
 	
-	if (flag == 1)	
+	if (flag == 0)	
 	{
-		printf("auto cmd line is ommited!\n");
-		counter = 4;
-	}
-	else
+		char binfilename[32];
+		int size = 0;
+
 		printf("auto cmd line is performed!\n");
+
+		file_fat_read("/boot.ini", ini_buf, 128);
+		printf("boot.ini:\n%s\n", ini_buf);
+
+		get_key_value("OS", ini_buf, binfilename);
+		size = file_fat_read(binfilename, (char *)0x21000000, 0x8000);		// 32K
+		printf("%s size: %d\n", binfilename, size);
+		((void (*)(void))0x21000000)();
+	}
 
 	while (1)
 	{
 		printf("LUMIT $ ");
 
-		if (counter < 4)
-			strcpy(buf, autocmd[counter]);
-		else		
-			gets(buf);
+		gets(buf);
 
-		counter++;
-		
 		printf("your input: <%s>\n", buf);
 			
 		argc = shell_parse(buf, argv);

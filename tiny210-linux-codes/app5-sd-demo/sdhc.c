@@ -1,4 +1,4 @@
-#include "210sdhc.h"
+#include "sdhc.h"
 #include "uart.h"
 #include "stdio.h"
 
@@ -495,7 +495,7 @@ void SDHC_SetSdhcInterruptEnable(U16 uNormalIntStatusEn, U16 uErrorIntStatusEn, 
 U8 SDHC_Init(void)
 {
 	SDHC_SpeedMode speed;
-	U32 uOperFreq;
+	U32 uOperFreq = 0;
 	U32 cnt = 0;
 	SDHC* sCh = &SDHC_descriptor;
 	sCh->m_eChannel = SDHC_CHANNEL_0;

@@ -257,6 +257,9 @@ int file_fat_detectfs(void);
 int file_fat_ls(const char *dir);
 long file_fat_read(const char *filename, void *buffer, unsigned long maxsize);
 const char *file_getfsname(int idx);
-//int fat_register_device(block_dev_desc_t *dev_desc, int part_no);
+int fat_register_device(block_dev_desc_t *dev_desc, int part_no);
+
+// add by limingth
+int fat_init(void);
 
 #endif /* _FAT_H_ */

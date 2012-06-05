@@ -1,10 +1,11 @@
-#include "210sdhc.h"
+#include "sdhc.h"
 #include "uart.h"
 #include "stdio.h"
 
-#define printf 	mydebug	
+//#define	debug		printf
+#define	printf	debug
 
-int mydebug(const char * format, ...)
+static int debug(const char * fmt, ...)
 {
 	return 0;
 }
@@ -502,7 +503,7 @@ void SDHC_SetSdhcInterruptEnable(U16 uNormalIntStatusEn, U16 uErrorIntStatusEn, 
 U8 SDHC_Init(void)
 {
 	SDHC_SpeedMode speed;
-	U32 uOperFreq;
+	U32 uOperFreq = 0;
 	U32 cnt = 0;
 	SDHC* sCh = &SDHC_descriptor;
 	sCh->m_eChannel = SDHC_CHANNEL_0;
@@ -530,15 +531,14 @@ U8 SDHC_Init(void)
 	SDHC_ResetController(sCh);
 
 	//SDHC_SetDriveStrength(sCh, 3);
-	uOperFreq = 133000000;
 	
-	printf("begin to SDHC_IdentifyCard\n");
+	debug("begin to SDHC_IdentifyCard\n");
 	while(!SDHC_IdentifyCard(sCh))
 	{
 		if(++cnt>4)
 		return FALSE;
 	}
-	printf("SDHC_IdentifyCard ok!\n");
+	debug("SDHC_IdentifyCard ok!\n");
 
 	// card Selection
 	if ( !SDHC_IssueCommand( sCh, 7, (U32)(sCh->m_uRca<<16), SDHC_CMD_AC_TYPE, SDHC_RES_R1B_TYPE ) )
@@ -802,7 +802,7 @@ U8 SDHC_ReadBlocks(U32 uStBlock, U16 uBlocks, U32 uBufAddr)
 	U32 ignore;
 	SDHC* sCh = &SDHC_descriptor;
 
-	printf("<SDHC_ReadBlocks> start=%d, size=%d\n", uStBlock, uBlocks);
+	debug("<SDHC_ReadBlocks> start=%d, size=%d\n", uStBlock, uBlocks);
 	
 #if 0
 	puts("SDHC_ReadBlocks : ");
@@ -860,7 +860,7 @@ U8 SDHC_ReadBlocks(U32 uStBlock, U16 uBlocks, U32 uBufAddr)
 	SDHC_INT_WAIT_CLEAR( sCh, 1, ignore );
 	sCh->m_uRemainBlock = 0;
 
-	printf("<SDHC_ReadBlocks> ok! return 1\n");
+	debug("<SDHC_ReadBlocks> ok! return 1\n");
 	return 1;	// block_cnt * 512
 }
 
@@ -1106,8 +1106,8 @@ void SDHC_SetSdClock(SDHC* sCh, SDHC_SpeedMode speed)
 	while (!(SDInp16( sCh->m_uBaseAddr+SDHC_CLK_CTRL )&0x2));
 
 	SDHC_SetSdClockOnOff( TRUE, sCh);
-	printf("rHM_CONTROL2 = %x\n",SDInp32( sCh->m_uBaseAddr+SDHC_CONTROL2 ));
-	printf("rHM_CLKCON = %x\n",SDInp16( sCh->m_uBaseAddr+SDHC_CLK_CTRL ));
+	debug("rHM_CONTROL2 = %x\n",SDInp32( sCh->m_uBaseAddr+SDHC_CONTROL2 ));
+	debug("rHM_CLKCON = %x\n",SDInp16( sCh->m_uBaseAddr+SDHC_CLK_CTRL ));
 }
 
 
@@ -1239,7 +1239,7 @@ void SDHC_DisplayCardInformation(SDHC * sCh)
 	{
 		sCh->m_ucSpecVer=(SDInp32( sCh->m_uBaseAddr+SDHC_RSP3 )>>18)& 0xF;
 		
-		printf("=>  m_ucSpecVer=%d\n", sCh->m_ucSpecVer);
+		debug("m_ucSpecVer=%d\n", sCh->m_ucSpecVer);
 	}
 
 	sCh->m_sReadBlockLen = (U16)((SDInp32( sCh->m_uBaseAddr+SDHC_RSP2 )>>8) & 0xf);

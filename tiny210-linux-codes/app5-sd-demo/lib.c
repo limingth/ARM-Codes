@@ -71,7 +71,7 @@ char* strcpy(char * dst, const char * src)
 {
 	char * cp = dst;
 
-	while( *cp++ = *src++ )
+	while((*cp++ = *src++))
 		;
 
 	return( dst );

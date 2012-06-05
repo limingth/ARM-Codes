@@ -27,7 +27,7 @@
 #include "fat.h"
 #include "stdio.h"
 #include "lib.h"
-#include "210sdhc.h"
+#include "sdhc.h"
 
 //#define	debug		printf
 #define	debug		//printf

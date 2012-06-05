@@ -27,8 +27,19 @@
 #include "fat.h"
 #include "stdio.h"
 #include "lib.h"
+#include "sdhc.h"
 
+//#define DEBUG
+#undef DEBUG
+
+#ifdef DEBUG
 #define	debug		printf
+#else
+static int debug(const char * fmt, ...)
+{
+	return 0;
+}
+#endif
 
 #define TOLOWER(c)	if((c) >= 'A' && (c) <= 'Z'){(c)+=('a' - 'A');}
 
@@ -63,7 +74,7 @@ static void downcase (char *str)
 
 static block_dev_desc_t *cur_dev = NULL;
 
-static unsigned long part_offset = 0;
+static unsigned int part_offset = 0;
 
 static int cur_part = 0;
 
@@ -76,7 +87,10 @@ static int disk_read (__u32 startblock, __u32 getsize, __u8 * bufptr)
 {
 	// part_offset is from physical block:0 offset 0x1c6
 	startblock += part_offset;
-	return SDHC_ReadBlocks(startblock, getsize, bufptr);
+
+	SDHC_ReadBlocks(startblock, (__u16)getsize, (__u32)bufptr);
+
+	return 0;
 }
 
 #if 0
@@ -95,10 +109,10 @@ static int disk_read (__u32 startblock, __u32 getsize, __u8 * bufptr)
 }
 #endif
 
+
 int fat_register_device (block_dev_desc_t * dev_desc, int part_no)
 {
 	unsigned char buffer[SECTOR_SIZE];
-
 	disk_partition_t info;
 
 	if (!dev_desc->block_read)
@@ -144,24 +158,28 @@ int fat_register_device (block_dev_desc_t * dev_desc, int part_no)
 
 #else
 
-	printf("get fs type\n");
+	debug("get fs type\n");
 	printf("DOS_FS_TYPE_OFFSET found: 0x%s 0x%s \n", &buffer[DOS_FS_TYPE_OFFSET], &buffer[DOS_FS32_TYPE_OFFSET]);
-	if ((strncmp((char *)&buffer[DOS_FS_TYPE_OFFSET], "FAT", 3) == 0) ||
-	    (strncmp((char *)&buffer[DOS_FS32_TYPE_OFFSET], "FAT32", 5) == 0)) {
+//	if ((strncmp((char *)&buffer[DOS_FS_TYPE_OFFSET], "FAT", 3) == 0) ||
+//	    (strncmp((char *)&buffer[DOS_FS32_TYPE_OFFSET], "FAT32", 5) == 0)) {
+	if (1)
+	{
 		/* ok, we assume we are on a PBR only */
-		printf("manually get partition info\n");
+		debug("manually get partition info\n");
 		cur_part = 1;
 	//	part_offset = 0;
+#ifdef DEBUG 
 		// offset at 0x1C6 (4bytes)
 		putchar_hex(buffer[0x1C6]);
 		putchar_hex(buffer[0x1C7]);
 		putchar_hex(buffer[0x1C8]);
 		putchar_hex(buffer[0x1C9]);
+#endif
 
 		part_offset = buffer[0x1C9]<<24 | buffer[0x1C8]<<16 | buffer[0x1C7]<<8 | buffer[0x1C6];
 		info.start = part_offset;
-		printf("part_offset is %x\n", part_offset);
-		printf("info.start is %x\n", info.start);
+		debug("part_offset is %x\n", part_offset);
+		debug("info.start is %x\n", info.start);
 	} else {
 		/* FIXME we need to determine the start block of the
 		 * partition where the DOS FS resides. This can be done
@@ -170,7 +188,7 @@ int fat_register_device (block_dev_desc_t * dev_desc, int part_no)
 		 */
 		part_offset = 32;
 		cur_part = 1;
-		printf("libpart is ok\n");
+		debug("libpart is ok\n");
 	}
 #endif
 	return 0;
@@ -311,8 +329,8 @@ static __u32 get_fatent (fsdata *mydata, __u32 entry)
 		}
 		break;
 	}
-	debug("FAT%d: ret: %08x, offset: %04x\n",
-	       mydata->fatsize, ret, offset);
+//	debug("FAT%d: ret: %08x, offset: %04x\n",
+//	       mydata->fatsize, ret, offset);
 
 	return ret;
 }
@@ -373,15 +391,14 @@ get_contents (fsdata *mydata, dir_entry *dentptr, __u8 *buffer,
 	__u32 endclust, newclust;
 	unsigned long actsize;
 
-	debug("Filesize: %ld bytes\n", filesize);
+	debug("maxsize: %d, Filesize: %ld bytes\n", maxsize, filesize);
 
 	if (maxsize > 0 && filesize > maxsize)
 		filesize = maxsize;
 
-	debug("%ld bytes\n", filesize);
-
 	actsize = bytesperclust;
 	endclust = curclust;
+	debug("maxsize %ld, actsize %ld, file size %ld bytes\n", maxsize, actsize, filesize);
 
 	do {
 		/* search for consecutive clusters */
@@ -391,7 +408,8 @@ get_contents (fsdata *mydata, dir_entry *dentptr, __u8 *buffer,
 				goto getit;
 			if (CHECK_CLUST(newclust, mydata->fatsize)) {
 				debug("curclust: 0x%x\n", newclust);
-				debug("Invalid FAT entry\n");
+				printf("Invalid FAT entry\n");
+				debug("got size = %ld\n", gotsize);
 				return gotsize;
 			}
 			endclust = newclust;
@@ -417,6 +435,7 @@ get_contents (fsdata *mydata, dir_entry *dentptr, __u8 *buffer,
 			return -1;
 		}
 		gotsize += actsize;
+		debug("2 got size = %ld\n", gotsize);
 		return gotsize;
 getit:
 		if (get_cluster(mydata, curclust, buffer, (int)actsize) != 0) {
@@ -431,6 +450,7 @@ getit:
 		if (CHECK_CLUST(curclust, mydata->fatsize)) {
 			debug("curclust: 0x%x\n", curclust);
 			printf("Invalid FAT entry\n");
+			debug("3 got size = %ld\n", gotsize);
 			return gotsize;
 		}
 		actsize = bytesperclust;
@@ -644,7 +664,7 @@ static dir_entry *get_dentfromdir (fsdata *mydata, int startsect,
 						}
 						if (doit) {
 							if (dirc == ' ') {
-								printf(" %8ld   %s%c\n",
+								printf(" %ld   %s%c\n",
 									(long)FAT2CPU32(dentptr->size),
 									l_name,
 									dirc);
@@ -700,7 +720,7 @@ static dir_entry *get_dentfromdir (fsdata *mydata, int startsect,
 
 				if (doit) {
 					if (dirc == ' ') {
-						printf(" %8ld   %s%c\n",
+						printf(" %ld   %s%c\n",
 							(long)FAT2CPU32(dentptr->size),
 							s_name, dirc);
 					} else {
@@ -748,8 +768,6 @@ static dir_entry *get_dentfromdir (fsdata *mydata, int startsect,
 static int
 read_bootsectandvi (boot_sector *bs, volume_info *volinfo, int *fatsize)
 {
-	int i;
-
 	__u8 block[FS_BLOCK_SIZE];
 
 	volume_info *vistart;
@@ -764,11 +782,14 @@ read_bootsectandvi (boot_sector *bs, volume_info *volinfo, int *fatsize)
 	memcpy(bs, block, sizeof(boot_sector));
 	
 #include "lib.h"
+#ifdef DEBUG
+	int i;
 	for (i = 0; i < 16; i++)
 	{
 		putchar_hex(block[i]);
 		putchar(' ');
 	}
+#endif
 
 	bs->reserved = FAT2CPU16(bs->reserved);
 	bs->fat_length = FAT2CPU16(bs->fat_length);
@@ -779,7 +800,7 @@ read_bootsectandvi (boot_sector *bs, volume_info *volinfo, int *fatsize)
 	/* FAT32 entries */
 	if (bs->fat_length == 0) {
 		/* Assume FAT32 */
-		printf("FAT32 entries founded \n");
+		debug("FAT32 entries founded \n");
 		bs->fat32_length = FAT2CPU32(bs->fat32_length);
 		bs->flags = FAT2CPU16(bs->flags);
 		bs->root_cluster = FAT2CPU32(bs->root_cluster);
@@ -787,9 +808,8 @@ read_bootsectandvi (boot_sector *bs, volume_info *volinfo, int *fatsize)
 		bs->backup_boot = FAT2CPU16(bs->backup_boot);
 		vistart = (volume_info *)(block + sizeof(boot_sector));
 		*fatsize = 32;
-		printf("root_cluster = %d\n", bs->root_cluster);
-		printf("info_sector= %d\n", bs->info_sector);
-		printf("vistart = 0x%x\n", vistart);
+		debug("root_cluster = %d\n", bs->root_cluster);
+		debug("info_sector= %d\n", bs->info_sector);
 	} else {
 		vistart = (volume_info *)&(bs->fat32_length);
 		*fatsize = 0;
@@ -844,6 +864,7 @@ do_fat_read (const char *filename, void *buffer, unsigned long maxsize,
 		return -1;
 	}
 
+	debug("<do_fat_read> maxsize = %ld\n", maxsize);
 	root_cluster = bs.root_cluster;
 
 	if (mydata->fatsize == 32)
@@ -856,14 +877,14 @@ do_fat_read (const char *filename, void *buffer, unsigned long maxsize,
 	cursect = mydata->rootdir_sect
 		= mydata->fat_sect + mydata->fatlength * bs.fats;
 
-	printf("fatlength = %d\n", mydata->fatlength);
-	printf("bs.fats = %x\n", bs.fats);
-	printf("fat_sect = %x\n", mydata->fat_sect);
-	printf("rootdir_sect = %x\n", mydata->rootdir_sect);
+	debug("fatlength = %d\n", mydata->fatlength);
+	debug("bs.fats = %x\n", bs.fats);
+	debug("fat_sect = %x\n", mydata->fat_sect);
+	debug("rootdir_sect = %x\n", mydata->rootdir_sect);
 
 	mydata->clust_size = bs.cluster_size;
-	printf("clust_size = %x\n", mydata->clust_size);
-	printf("fatsize = %x\n", mydata->fatsize);
+	debug("clust_size = %x\n", mydata->clust_size);
+	debug("fatsize = %x\n", mydata->fatsize);
 
 	if (mydata->fatsize == 32) {
 		mydata->data_begin = mydata->rootdir_sect -
@@ -892,6 +913,7 @@ do_fat_read (const char *filename, void *buffer, unsigned long maxsize,
 	       mydata->rootdir_sect * SECTOR_SIZE, mydata->data_begin);
 	debug("Cluster size: %d\n", mydata->clust_size);
 
+	printf("fat read file: %s\n", filename);
 	/* "cwd" is always the root... */
 	while (ISDIRDELIM(*filename))
 		filename++;
@@ -899,7 +921,7 @@ do_fat_read (const char *filename, void *buffer, unsigned long maxsize,
 	/* Make a copy of the filename and convert it to lowercase */
 	strcpy(fnamecopy, filename);
 	downcase(fnamecopy);
-	printf("file name is <%s>\n", fnamecopy);
+	debug("file name is <%s>\n", fnamecopy);
 	
 	if (*fnamecopy == '\0') {
 		if (!dols)
@@ -918,7 +940,7 @@ do_fat_read (const char *filename, void *buffer, unsigned long maxsize,
 		isdir = 1;
 	}
 
-	printf("isdir = %d, subname = %s\n", isdir, subname);
+	debug("isdir = %d, subname = %s\n", isdir, subname);
 	j = 0;
 	while (1) {
 		int i;
@@ -934,8 +956,7 @@ do_fat_read (const char *filename, void *buffer, unsigned long maxsize,
 			debug("Error: reading rootdir block\n");
 			return -1;
 		}
-
-		// 
+#ifdef DEBUG
 		for (i = 0; i < 64; i++)
 		{
 			putchar_hex(do_fat_read_block[i]);
@@ -944,11 +965,11 @@ do_fat_read (const char *filename, void *buffer, unsigned long maxsize,
 			if (i % 16 == 15)
 				putchar('\n');
 		}
-
+#endif
 		dentptr = (dir_entry *) do_fat_read_block;
 
 		for (i = 0; i < DIRENTSPERBLOCK; i++) {
-			printf("%d: %s\n", i, dentptr->name);
+			debug("%d: %s\n", i, dentptr->name);
 			char s_name[14], l_name[VFAT_MAXLEN_BYTES];
 
 			l_name[0] = '\0';
@@ -970,7 +991,7 @@ do_fat_read (const char *filename, void *buffer, unsigned long maxsize,
 						     do_fat_read_block,
 						     dentptr, l_name);
 
-					printf("l_name is %s\n", l_name);
+					debug("l_name is %s\n", l_name);
 
 					if (dols == LS_ROOT) {
 						char dirc;
@@ -982,20 +1003,20 @@ do_fat_read (const char *filename, void *buffer, unsigned long maxsize,
 							dirs++;
 							dirc = '/';
 							doit = 1;
-//							printf("dirs = %d\n", dirs);
+							debug("dirs %d: %s\n", dirs, l_name);
 						} else {
 							dirc = ' ';
 							if (l_name[0] != 0) {
 								files++;
 								doit = 1;
 							}
-//							printf("files = %d\n", files);
+							debug("files %d: %s\n", files, l_name);
 						}
-#if 0
-						printf("l_name is %s\n", l_name);
+#if 1
+						debug("l_name is %s\n", l_name);
 						if (doit) {
 							if (dirc == ' ') {
-								printf(" %8ld   %s%c\n",
+								printf(" %ld   %s%c\n",
 									(long)FAT2CPU32(dentptr->size),
 									l_name,
 									dirc);
@@ -1046,19 +1067,19 @@ do_fat_read (const char *filename, void *buffer, unsigned long maxsize,
 					if (s_name[0] != 0) {
 						dirs++;
 						doit = 1;
-						printf("2 dirs = %d\n", dirs);
+						debug("2 dirs = %d\n", dirs);
 					}
 				} else {
 					dirc = ' ';
 					if (s_name[0] != 0) {
 						files++;
 						doit = 1;
-						printf("2 dirs = %d\n", dirs);
+						debug("2 dirs = %d\n", dirs);
 					}
 				}
 				if (doit) {
 					if (dirc == ' ') {
-						printf(" %8ld   %s%c\n",
+						printf(" %ld   %s%c\n",
 							(long)FAT2CPU32(dentptr->size),
 							s_name, dirc);
 					} else {
@@ -1178,7 +1199,8 @@ rootdir_done:
 	ret = get_contents(mydata, dentptr, buffer, maxsize);
 	debug("Size: %d, got: %ld\n", FAT2CPU32(dentptr->size), ret);
 
-	return ret;
+//	return ret;
+	return dentptr->size;
 }
 
 int file_fat_detectfs (void)
@@ -1192,7 +1214,7 @@ int file_fat_detectfs (void)
 		printf("No current device\n");
 		return 1;
 	}
-	printf("<file fat detectfs begin> \n");
+	debug("<file fat detectfs begin> \n");
 	
 #if defined(CONFIG_CMD_IDE) || \
     defined(CONFIG_CMD_MG_DISK) || \
@@ -1231,7 +1253,7 @@ int file_fat_detectfs (void)
 	dev_print(cur_dev);
 #endif
 
-	printf("read_bootsectandvi begin \n");
+	debug("read_bootsectandvi begin \n");
 	if (read_bootsectandvi(&bs, &volinfo, &fatsize)) {
 		printf("\nNo valid FAT fs found\n");
 		return 1;
@@ -1254,6 +1276,34 @@ int file_fat_ls (const char *dir)
 
 long file_fat_read (const char *filename, void *buffer, unsigned long maxsize)
 {
-	printf("reading %s\n", filename);
 	return do_fat_read(filename, buffer, maxsize, LS_NO);
+}
+
+
+unsigned long block_read(int dev, unsigned long start, unsigned long blkcnt, void *buffer)
+{
+	int ret;
+	debug("<main> block_read: start = %ld, cnt = %ld\n", start, blkcnt);
+	ret = SDHC_ReadBlocks(start, (short)blkcnt, (int)buffer);
+	debug("ret: %d\n", ret);
+	return ret;
+}
+
+int fat_init(void)
+{
+	block_dev_desc_t dev_desc;
+	int part=1;
+	int dev=1;
+
+	dev_desc.block_read = block_read;
+	
+	if (fat_register_device(&dev_desc, part) != 0) {
+		printf("\n** Unable to use %s %d:%d for fatload **\n",
+			"FAT", dev, part);
+		return 1;
+	}
+	
+	file_fat_detectfs();
+
+	return 0;
 }

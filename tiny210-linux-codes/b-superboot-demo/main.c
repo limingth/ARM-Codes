@@ -7,7 +7,7 @@
 //#include "nand.h"
 #include "sdhc.h"
 
-#define BL2_SDRAM_ADDR	0x20A00000
+#define BL2_SDRAM_ADDR	0x20808000
 
 int mymain(void)
 {
