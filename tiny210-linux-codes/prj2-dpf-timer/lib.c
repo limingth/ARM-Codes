@@ -1,11 +1,19 @@
 
 #include "uart.h"
 
+void ndelay(int n)
+{
+	int i;
+	
+	for (i = 0; i < n; i++)
+		;
+}
+
 void delay(void)
 {
 	int i;
 	
-	for (i = 0; i < 0x4000000; i++)
+	for (i = 0; i < 0x1000000; i++)
 		;
 }
 
@@ -142,7 +150,7 @@ char * get_key_value(const char * key, char * buf, char * value)
 		char c = buf[i];
 	//	printf("c = %c\n", c);
 
-		if ((state == 0 || state == 1) && isalpha(c))
+		if ((state == 0 || state == 1) && (isalpha(c) || (c == '#')))
 		{
 			name[n++] = c;
 			state = 1;
@@ -171,7 +179,7 @@ char * get_key_value(const char * key, char * buf, char * value)
 			state = 5;
 		}
 		else
-		if (state == 5 && isname(c))
+		if (state == 5 && (isname(c) || c == ' '))
 		{
 			value[v++] = c;
 			state = 5;

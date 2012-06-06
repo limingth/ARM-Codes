@@ -2,7 +2,9 @@
 #include "lib.h"
 #include "xmodem.h"
 #include "nand.h"
+#include "lcd.h"
 #include "audio.h"
+#include "fat.h"
 
 int help(int argc, char * argv[])
 {
@@ -136,10 +138,11 @@ int nand(int argc, char *argv[])
 	return 0;
 }
 
-
+#if 0
 typedef unsigned int __u32;
 typedef unsigned char __u8;
 typedef unsigned short __u16;
+#endif
 
 struct tag_header {
 	__u32 size;
@@ -258,7 +261,7 @@ int sdload(int argc, char * argv[])
 	if (argc >= 3)
 		sdram_addr = atoi(argv[2]);
 
-	filesize = file_fat_read(filename, sdram_addr, 0x100000000);
+	filesize = file_fat_read(filename, (char *)sdram_addr, 0x10000000);
 	printf("sdload file <%s>, filesize %d \n", filename, filesize);
 
 	p = (char *)sdram_addr;		// use "loadb 0x22000000" to put wav file here first

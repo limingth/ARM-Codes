@@ -1,11 +1,19 @@
 
 #include "uart.h"
 
+void ndelay(int n)
+{
+	int i;
+	
+	for (i = 0; i < n; i++)
+		;
+}
+
 void delay(void)
 {
 	int i;
 	
-	for (i = 0; i < 0x4000000; i++)
+	for (i = 0; i < 0x1000000; i++)
 		;
 }
 
@@ -126,7 +134,7 @@ int isalpha(int c)
 
 int isname(char c)
 {
-	return isdigit(c) || isalpha(c) || (c == '.') || (c == '-');
+	return isdigit(c) || isalpha(c) || (c == '.');
 }
 
 char * get_key_value(const char * key, char * buf, char * value)
@@ -171,7 +179,7 @@ char * get_key_value(const char * key, char * buf, char * value)
 			state = 5;
 		}
 		else
-		if (state == 5 && isname(c))
+		if (state == 5 && (isname(c) || c == ' '))
 		{
 			value[v++] = c;
 			state = 5;

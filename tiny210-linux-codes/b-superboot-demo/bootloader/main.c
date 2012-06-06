@@ -8,6 +8,7 @@
 #include "sdhc.h"
 #include "fat.h"
 #include "lcd.h"
+#include "audio.h"
 
 int mymain(void)
 {

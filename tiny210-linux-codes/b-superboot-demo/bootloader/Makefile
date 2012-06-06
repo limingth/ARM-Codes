@@ -10,8 +10,8 @@ LD = $(CROSS)ld
 AS = $(CROSS)as
 OBJCOPY = $(CROSS)objcopy
 OBJDUMP = $(CROSS)objdump
-#CFLAGS = -Wall -O1
-CFLAGS = -O1
+CFLAGS = -Wall -O1
+#CFLAGS = -O1
 #LDFLAGS = -Ttext 0xD0030010
 LDFLAGS = -Ttext 0x20808000
 

@@ -17,7 +17,6 @@ void xmodem_recv(char *addr)
 		uart_putchar(c);
 		delay();
 	}
-	
 	uart_putchar(NAK);
 	while (uart_getchar() != EOT)
 	{

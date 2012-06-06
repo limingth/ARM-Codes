@@ -346,7 +346,7 @@ d002050c:	ebffffe9 	bl	d00204b8 <putchar_hex>
 d0020510:	e8bd8010 	pop	{r4, pc}
 
 d0020514 <delay>:
-d0020514:	e3a03601 	mov	r3, #1048576	; 0x100000
+d0020514:	e3a03301 	mov	r3, #67108864	; 0x4000000
 d0020518:	e2533001 	subs	r3, r3, #1
 d002051c:	1afffffd 	bne	d0020518 <delay+0x4>
 d0020520:	e12fff1e 	bx	lr
