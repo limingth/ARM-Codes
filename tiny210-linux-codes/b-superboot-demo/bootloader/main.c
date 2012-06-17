@@ -85,7 +85,7 @@ int mymain(void)
 		printf("boot.ini:\n%s\n", ini_buf);
 
 		get_key_value("OS", ini_buf, binfilename);
-		size = file_fat_read(binfilename, (char *)0x21000000, 0x8000);		// 32K
+		size = file_fat_read(binfilename, (char *)0x21000000, 0x10000);		// 64K
 		printf("%s size: %d\n", binfilename, size);
 		((void (*)(void))0x21000000)();
 	}
