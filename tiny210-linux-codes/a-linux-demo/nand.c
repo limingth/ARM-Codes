@@ -15,7 +15,9 @@ void nand_init(void)
 	// [15:12] TACLS = 1 -> (1) 	1/133Mhz = 7.5ns
 	// [11:8] TWRPH0 = 1 -> (1+1)	7.5ns * 2 = 15ns
 	// [7:4] TWRPH1 = 1 -> (1+1)	7.5ns * 2 = 15ns
-	NFCONF |= 1<<12 | 1<<8 | 1<<4;    	// AddrCycle  [1] 	1 = 5 address cycle 
+	NFCONF |= 2<<12 | 2<<8 | 1<<4;    
+
+	// AddrCycle  [1] 	1 = 5 address cycle 
 	NFCONF |= 1<<1; 
 	
 	// MODE  [0]  NAND Flash controller operating mode 

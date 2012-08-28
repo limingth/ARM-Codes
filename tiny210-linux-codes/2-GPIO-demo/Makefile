@@ -21,16 +21,7 @@ $(PRJ).bin: $(PRJ).elf
 $(PRJ).elf: $(OBJ)
 	$(LD) $^ -o $@
 
-elf:
-	arm-linux-as start.s -o start.o
-	arm-linux-gcc -c led.c -o led.o
-	arm-linux-gcc -c buzzer.c -o buzzer.o
-	arm-linux-gcc -c button.c -o button.o
-	arm-linux-gcc -c main.c -o main.o
-	arm-linux-gcc -c lib.c -o lib.o
-	arm-linux-ld start.o led.o buzzer.o button.o main.o lib.o -o led.elf
-
-burn:
+b burn:
 	sudo dd iflag=dsync oflag=dsync if=$(PRJ)-sd.bin of=/dev/sdb seek=1
 
 clean:

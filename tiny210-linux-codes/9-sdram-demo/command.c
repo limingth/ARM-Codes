@@ -1,3 +1,4 @@
+#include "uart.h"
 #include "stdio.h"
 #include "lib.h"
 #include "xmodem.h"
@@ -68,7 +69,7 @@ int loadb(int argc, char * argv[])
 		size = atoi(argv[1]);
 	
 	for (i = 0; i < size; i++)
-		*p++ = getchar();
+		*p++ = uart_getchar();
 	
 	printf("load finished! \n");
 	

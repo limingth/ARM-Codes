@@ -10,3 +10,5 @@ all:
 burn:
 	sudo dd iflag=dsync oflag=dsync if=sd-led.bin of=/dev/sdb seek=1
 
+burn2:
+	sudo dd iflag=dsync oflag=dsync if=sd-led.bin of=/dev/mmcblk0 seek=1

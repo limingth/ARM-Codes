@@ -1,5 +1,6 @@
 
 PRJ = 3-UART-demo
+#SRC = main.c uart.c lib.c
 SRC = $(wildcard *.c)
 OBJ = start.o $(SRC:.c=.o) 
 

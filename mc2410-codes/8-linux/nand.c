@@ -101,7 +101,7 @@ void nand_init(void)
 	// 1 = Enable NAND Flash Controller
 	NFCONF |= 1<<15;
 	
-	// TACLS [10:8] CLE & ALE duration setting value (0~7)
+	// TACLS Û1°:8] CLE & ALE duration setting value (1~7)
 	// Duration = HCLK * (TACLS + 1)
 	//NFCONF |= 1<<8;
 	
@@ -110,5 +110,5 @@ void nand_init(void)
   	//	0 : NAND flash nFCE = L (active)
 	//	1 : NAND flash nFCE = H (inactive)
   	//	(After auto-boot, nFCE will be inactive.)	
-  	NFCONF &= ~(1<<11);
+  	NfCONF &= ~(1<<11);
 }

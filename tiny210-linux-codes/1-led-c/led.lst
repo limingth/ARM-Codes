@@ -7,7 +7,7 @@ Disassembly of section .text:
 00008094 <_start>:
     8094:	e59fd000 	ldr	sp, [pc, #0]	; 809c <_start+0x8>
     8098:	ea000013 	b	80ec <mymain>
-    809c:	d0030000 	.word	0xd0030000
+    809c:	d0038000 	.word	0xd0038000
 
 000080a0 <delay>:
     80a0:	e52db004 	push	{fp}		; (str fp, [sp, #-4]!)
@@ -31,27 +31,32 @@ Disassembly of section .text:
     80e8:	0001869f 	.word	0x0001869f
 
 000080ec <mymain>:
-    80ec:	e92d4800 	push	{fp, lr}
-    80f0:	e28db004 	add	fp, sp, #4
-    80f4:	e59f3040 	ldr	r3, [pc, #64]	; 813c <mymain+0x50>
-    80f8:	e59f2040 	ldr	r2, [pc, #64]	; 8140 <mymain+0x54>
+    80ec:	e52db004 	push	{fp}		; (str fp, [sp, #-4]!)
+    80f0:	e28db000 	add	fp, sp, #0
+    80f4:	e59f3050 	ldr	r3, [pc, #80]	; 814c <mymain+0x60>
+    80f8:	e59f2050 	ldr	r2, [pc, #80]	; 8150 <mymain+0x64>
     80fc:	e5832000 	str	r2, [r3]
-    8100:	e59f303c 	ldr	r3, [pc, #60]	; 8144 <mymain+0x58>
+    8100:	e59f304c 	ldr	r3, [pc, #76]	; 8154 <mymain+0x68>
     8104:	e3a02000 	mov	r2, #0
     8108:	e5832000 	str	r2, [r3]
-    810c:	e59f3034 	ldr	r3, [pc, #52]	; 8148 <mymain+0x5c>
+    810c:	e59f3044 	ldr	r3, [pc, #68]	; 8158 <mymain+0x6c>
     8110:	e3a02000 	mov	r2, #0
     8114:	e5832000 	str	r2, [r3]
-    8118:	e59f3024 	ldr	r3, [pc, #36]	; 8144 <mymain+0x58>
-    811c:	e3a02005 	mov	r2, #5
-    8120:	e5832000 	str	r2, [r3]
-    8124:	ebffffdd 	bl	80a0 <delay>
-    8128:	e59f3014 	ldr	r3, [pc, #20]	; 8144 <mymain+0x58>
-    812c:	e3a0200a 	mov	r2, #10
-    8130:	e5832000 	str	r2, [r3]
-    8134:	ebffffd9 	bl	80a0 <delay>
+    8118:	e59f303c 	ldr	r3, [pc, #60]	; 815c <mymain+0x70>
+    811c:	e5933000 	ldr	r3, [r3]
+    8120:	e2033001 	and	r3, r3, #1
+    8124:	e3530000 	cmp	r3, #0
+    8128:	1a000003 	bne	813c <mymain+0x50>
+    812c:	e59f3020 	ldr	r3, [pc, #32]	; 8154 <mymain+0x68>
+    8130:	e3a02000 	mov	r2, #0
+    8134:	e5832000 	str	r2, [r3]
     8138:	eafffff6 	b	8118 <mymain+0x2c>
-    813c:	e0200280 	.word	0xe0200280
-    8140:	00001111 	.word	0x00001111
-    8144:	e0200284 	.word	0xe0200284
-    8148:	e0200c40 	.word	0xe0200c40
+    813c:	e59f3010 	ldr	r3, [pc, #16]	; 8154 <mymain+0x68>
+    8140:	e3a02001 	mov	r2, #1
+    8144:	e5832000 	str	r2, [r3]
+    8148:	eafffff2 	b	8118 <mymain+0x2c>
+    814c:	e0200280 	.word	0xe0200280
+    8150:	00001111 	.word	0x00001111
+    8154:	e0200284 	.word	0xe0200284
+    8158:	e0200c40 	.word	0xe0200c40
+    815c:	e0200c44 	.word	0xe0200c44

@@ -23,6 +23,7 @@ int mymain(void)
 	// set GPH2_0 as input
 	GPH2CON = 0x0;
 
+#if 0
 	while (1)
 	{		
 		GPJ2DAT = 0x5;	
@@ -31,6 +32,7 @@ int mymain(void)
 		GPJ2DAT = 0xa;	
 		delay();
 	}
+#endif
 
 	while (1)
 	{		

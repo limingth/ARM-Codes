@@ -1,3 +1,4 @@
+#include "uart.h"
 #include "stdio.h"
 #include "lib.h"
 #include "xmodem.h"
@@ -50,7 +51,6 @@ int mw(int argc, char * argv[])
 	return 0;
 }
 
-
 #define DOWN_BIN_ADDR	(0xD0022000)	// 0xD0020000 + 8K as .bin file load addr
 
 int loadb(int argc, char * argv[])
@@ -63,9 +63,11 @@ int loadb(int argc, char * argv[])
 		
 	if (argc >= 2)
 		size = atoi(argv[1]);
+
+	printf("size = %d\n", size);
 	
 	for (i = 0; i < size; i++)
-		*p++ = getchar();
+		*p++ = uart_getchar();
 	
 	printf("load finished! \n");
 	
@@ -83,7 +85,7 @@ void loadx(int argc, char *argv[])
 			
 	xmodem_recv(p);
 	
-	printf("loadx finished! \n");
+	printf("\nloadx finished! \n");
 }
 
 int go(int argc, char * argv[])
@@ -93,6 +95,8 @@ int go(int argc, char * argv[])
 	printf("go to address 0x%x\n", DOWN_BIN_ADDR);
 
 	fp = (void (*)(void))DOWN_BIN_ADDR;
+
+//	((void (*)(void))0x0)();
 	
 	fp();
 	

@@ -23,14 +23,15 @@ void uart_init(void)
 	MPLL_CON = 0xa29b0c01;
 #endif
 
-	// 66Mhz / (115200*16) - 1 = 0x23
-	// 66Mhz / (19200*16) - 1 = 0xD5
 	GPA0CON &= ~(0xFF<<0);
 	GPA0CON |= 0x22;
 			
 	// set UART SFRs
 	ULCON0 = 0x3;
 	UCON0 = 0x245;
+
+	// 66Mhz / (115200*16) - 1 = 0x23
+	// 66Mhz / (19200*16) - 1 = 0xD5
 	UBRDIV0 = 0x23;
 	UDIVSLOT0 = 0x808;
 

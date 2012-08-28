@@ -1,10 +1,10 @@
-#include "led.h"
+//#include "led.h"
 #include "uart.h"
 #include "lib.h"
 
 int mymain(void)
 {
-	led_init();
+//	led_init();
 	uart_init();
 	
 	uart_putchar('0');

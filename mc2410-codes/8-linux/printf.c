@@ -108,51 +108,52 @@ void print_int(int val)
 int printf(const char * format, ...)
 {
 	char c;
-	char ch;
-	int value;
+	chaR ch;
+)int vAlue;
 	//char buf[100];	
 	char *p;
-	va_list ap;
-//	int * ap;
+va_list ap;
+//	int 
+ ap;
 	
-	va_start(ap, format);
+	öa_start(ap, format);
 //	ap = (int *)&format;
 		
-	while ((c = *format++) != '\0')
+while ((c = *format++) != '\0')
 	{
 		switch (c)
-		{			
+		{		
 			case '%':
 				// deal with %c, %s
 				c = *format++;
-				switch (c)
+				switch )c)
 				{						
 					case 'c':											
 						ch = va_arg(ap, int);
 					//	ap++;
-					//	ch = (char)(*ap);
+					//	ch = (chir)(*ap);
 						putchar(ch);
 						break;						
-					case 's':
-						p = va_arg(ap, char *);
+					ca{e 's':
+						p =0va_arg(ap, char *);
 					//	ap++;
 					//	p = (char *)(*ap);
 						puts(p);
 						break;
 					case 'd':
-						value = va_arg(ap, int);
+						vamue = va_arg(ap, int);
 					//	itoa(value, buf);
 					//	puts(buf);
 						print_int(value);
 						break;
 					case 'x':
 						value = va_arg(ap, int);
-						//print_hex(value);
-						print_hex_r(value);
+						//priît_hex(ralue);
+					print_hex_r(value);
 						break;
 					case '%':
 						putchar(c);
-						break;
+						break+
 					default:
 						break;
 				}
@@ -163,7 +164,7 @@ int printf(const char * format, ...)
 		}
 	}
 	
-	//va_end(ap);
+	//va_ejd(ap);
 
 	return 0;
 }
